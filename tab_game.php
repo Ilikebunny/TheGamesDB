@@ -1,16 +1,5 @@
 <?php
 include('helper/image.php');
-
-function imageUsername($artID) {
-    ## Get the site banner rating
-    $query = "SELECT u.id, u.username FROM users AS u, banners AS b WHERE b.id = '$artID' AND u.id = b.userid";
-    $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-    $imageUser = mysql_fetch_object($result);
-
-    $str = "Uploader:&nbsp;<a href='$baseurl/artistbanners/?id=$imageUser->id' style='color: orange;'>$imageUser->username</a>";
-
-    return $str;
-}
 ?>
 
 <?php
@@ -223,7 +212,7 @@ $game = mysql_fetch_object($result);
                     echo $game->Platform;
                 }
                 ?>/"><?= $game->PlatformName ?></a>
-               <?php
+                   <?php
                } else {
                    echo "N/A";
                }
@@ -282,9 +271,9 @@ $game = mysql_fetch_object($result);
                 <p style="text-align: center;"><img src="<?= $baseurl ?>/banners/<?= $clearlogoResult->filename ?>" alt="<?= $game->GameTitle . "ClearLOGO" ?>" title="<?= $game->GameTitle . "ClearLOGO" ?>" /><br /><br /><?= imageUsername($clearlogoResult->id) ?> | <a href="<?= $baseurl ?>/scripts/reportqueue_submit.php?reporttype=image&reportid=<?= $clearlogoResult->id ?>" rel="facebox" style="color: orange;">Report Image</a></p>
             </div>
             <hr />
-                <?php
-            }
-            ?>
+            <?php
+        }
+        ?>
 
         <p>
             <?php
@@ -355,13 +344,15 @@ $game = mysql_fetch_object($result);
                 }
                 ?>
                 <br />
-                <span class="grey">Release Date:</span>&nbsp;&nbsp;<?php
+                <span class="grey">Release Date:</span>&nbsp;&nbsp;
+                <?php
                 if (!empty($game->ReleaseDate)) {
                     echo $game->ReleaseDate;
                 } else {
                     echo "N/A";
                 }
-                ?><br /><br />
+                ?>
+                <br /><br />
 
                 <?php
                 // Start Developer Logo Replacement
@@ -380,17 +371,18 @@ $game = mysql_fetch_object($result);
                             }
                         }
                     }
+
                     if ($developerLogoExists == true) {
                         if (!file_exists("banners/_gameviewcache/publishers/$developerResult->logo")) {
                             WideImage::load("banners/publisher-logos/$developerResult->logo")->resize(400, 60)->saveToFile("banners/_gameviewcache/publishers/$developerResult->logo");
                         }
                         ?>
                         <span class="grey">Developer:</span> <?php
-            if (!empty($game->Developer)) {
-                echo $game->Developer;
-            } else {
-                echo "N/A";
-            }
+                        if (!empty($game->Developer)) {
+                            echo $game->Developer;
+                        } else {
+                            echo "N/A";
+                        }
                         ?>
                         <br/>
                         <img src="<?= $baseurl; ?>/banners/_gameviewcache/publishers/<?= $developerResult->logo; ?>" alt="<?= $game->Developer; ?>" title="<?= $game->Developer; ?>" style="vertical-align: middle; padding-bottom: 14px; padding-top: 4px;" />
@@ -462,26 +454,26 @@ $game = mysql_fetch_object($result);
                             echo "N/A";
                         }
                         ?>
-            <?php
-        }
-    } else {
-        ?>
-                    <span class="grey">Publisher:</span>&nbsp;&nbsp;<?php
-                        if (!empty($game->Publisher)) {
-                            echo $game->Publisher;
-                        } else {
-                            echo "N/A";
-                        }
-                        ?>
                         <?php
                     }
+                } else {
                     ?>
+                    <span class="grey">Publisher:</span>&nbsp;&nbsp;<?php
+                    if (!empty($game->Publisher)) {
+                        echo $game->Publisher;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?>
+                    <?php
+                }
+                ?>
 
             </p>
 
             <div style="clear: both;"></div>
 
-                    <?php if ($game->Platform == 1 || $game->Platform == 37) { ?>
+            <?php if ($game->Platform == 1 || $game->Platform == 37) { ?>
                 <hr />
                 <div id="sysReq">
                     <p><span class="grey">System Requirements</span></p>
@@ -493,42 +485,42 @@ $game = mysql_fetch_object($result);
                         }
                         ?><br />
                         <span class="grey">Processor:</span> <?php
-                if ($game->processor == "") {
-                    echo "N/A";
-                } else {
-                    echo $game->processor;
-                }
-                ?><br />
+                        if ($game->processor == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->processor;
+                        }
+                        ?><br />
                         <span class="grey">RAM:</span> <?php
-                if ($game->ram == "") {
-                    echo "N/A";
-                } else {
-                    echo $game->ram;
-                }
-                ?><br />
+                        if ($game->ram == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->ram;
+                        }
+                        ?><br />
                         <span class="grey">Hard Drive:</span> <?php
-                if ($game->hdd == "") {
-                    echo "N/A";
-                } else {
-                    echo $game->hdd;
-                }
-                ?><br />
+                        if ($game->hdd == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->hdd;
+                        }
+                        ?><br />
                         <span class="grey">Video:</span> <?php
-                if ($game->video == "") {
-                    echo "N/A";
-                } else {
-                    echo $game->video;
-                }
-                ?><br />
+                        if ($game->video == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->video;
+                        }
+                        ?><br />
                         <span class="grey">Sound:</span> <?php
-                if ($game->sound == "") {
-                    echo "N/A";
-                } else {
-                    echo $game->sound;
-                }
-                ?></p>
+                        if ($game->sound == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->sound;
+                        }
+                        ?></p>
                 </div>
-                        <? } ?>
+            <? } ?>
 
         </div>
 
@@ -594,29 +586,29 @@ $game = mysql_fetch_object($result);
 
                     <div class="slider-wrapper theme-default">
                         <div id="screensRibbon" style="position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-screens.png) no-repeat; z-index: 10"></div>
-                    <?php
-                    if ($screenResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.keytype = 'screenshot' ")) {
-                        if (mysql_num_rows($screenResult) > 0) {
-                            ?>
-                                <div id="screenSlider" class="nivoSlider">
-                                <?php
-                                $screenSlideCount = 0;
-                                while ($screen = mysql_fetch_object($screenResult)) {
-                                    ?>
-                                        <img class="screenSlide" <?= imageDualResize("$baseurl/banners/$screen->filename", "banners/_gameviewcache/$screen->filename", 470, 264) ?> alt="<?= $game->GameTitle ?> Screenshot" title="<?= imageUsername($screen->id) ?> | <a href='javascript:void();' onclick='faceboxReport(<?= $screen->id ?>);' style='color: orange;'>Report Image</a><br /><a href='<?= "$baseurl/banners/$screen->filename" ?>' target='_blank'>View Full-Size</a>"/>
-                                    <?php
-                                    $screenSlideCount++;
-                                }
+                        <?php
+                        if ($screenResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.keytype = 'screenshot' ")) {
+                            if (mysql_num_rows($screenResult) > 0) {
                                 ?>
+                                <div id="screenSlider" class="nivoSlider">
+                                    <?php
+                                    $screenSlideCount = 0;
+                                    while ($screen = mysql_fetch_object($screenResult)) {
+                                        ?>
+                                        <img class="screenSlide" <?= imageDualResize("$baseurl/banners/$screen->filename", "banners/_gameviewcache/$screen->filename", 470, 264) ?> alt="<?= $game->GameTitle ?> Screenshot" title="<?= imageUsername($screen->id) ?> | <a href='javascript:void();' onclick='faceboxReport(<?= $screen->id ?>);' style='color: orange;'>Report Image</a><br /><a href='<?= "$baseurl/banners/$screen->filename" ?>' target='_blank'>View Full-Size</a>"/>
+                                        <?php
+                                        $screenSlideCount++;
+                                    }
+                                    ?>
                                 </div>
-                            <?php
-                        } else {
-                            ?>
+                                <?php
+                            } else {
+                                ?>
                                 <img class="imgShadow" src="<?= $baseurl ?>/images/common/placeholders/fanart_blank.png" width="470" height="264" alt="<?= $game->GameTitle ?>" title="<?= $game->GameTitle ?>" />
-                            <?php
+                                <?php
+                            }
                         }
-                    }
-                    ?>
+                        ?>
                     </div>
                 </div>
 
@@ -627,29 +619,29 @@ $game = mysql_fetch_object($result);
             <div id="banners">
                 <div class="slider-wrapper theme-default">
                     <div id="bannerRibbon" style="display: none; position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-banners.png) no-repeat; z-index: 10"></div>
-                        <?php
-                        if ($bannerResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.keytype = 'series' ") or die("banner query failed" . mysql_error())) {
-                            if (mysql_num_rows($bannerResult) > 0) {
-                                ?>
+                    <?php
+                    if ($bannerResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.keytype = 'series' ") or die("banner query failed" . mysql_error())) {
+                        if (mysql_num_rows($bannerResult) > 0) {
+                            ?>
                             <div id="bannerSlider" class="nivoSlider" style="width:760px important; height: 140px !important;">
                                 <?php
                                 $bannerSlideCount = 0;
                                 while ($banner = mysql_fetch_array($bannerResult)) {
                                     ?>
                                     <img class="bannerSlide" src="<?= "$baseurl/banners/$banner[filename]" ?>" width="760" height="140" alt="<?= $game->GameTitle ?> Banner" title="<?= imageUsername($banner[id]) ?> | <a href='javascript:void();' onclick='faceboxReport(<?= $banner[id] ?>)' style='color: orange;'>Report Image</a>"/>
-                <?php
-                $bannerSlideCount++;
-            }
-            ?>
-                            </div>
-                                <?php
-                            } else {
+                                    <?php
+                                    $bannerSlideCount++;
+                                }
                                 ?>
+                            </div>
+                            <?php
+                        } else {
+                            ?>
                             <img class="imgShadow" src="<?= $baseurl; ?>/images/common/placeholders/banner_blank.png" width="760" height="140" alt="<?= $game->GameTitle; ?>" title="<?= $game->GameTitle; ?>" />
-            <?php
-        }
-    }
-    ?>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
 
                 <div style="clear: both;"></div>
@@ -660,47 +652,47 @@ $game = mysql_fetch_object($result);
                 <div style="margin: auto; width: 500px; box-shadow: 0px 0px 22px #000; border-radius: 16px; background-color: #1e1e1e; text-align: center; margin-top: 20px;">
                     <div style="padding: 20px;">
                         <h3 style="color: #fff;">Other Platforms with this Game</h3>
-    <?php
-    $similarResult = mysql_query(" SELECT g.id, g.platform, g.GameTitle, p.name, p.icon FROM games as g, platforms as p WHERE g.GameTitle = \"$game->GameTitle\" AND g.Platform <> '$game->Platform' AND g.Platform = p.id ORDER BY p.name");
-    $similarRowCount = mysql_num_rows($similarResult);
-    if ($similarRowCount > 0) {
-        ?>
+                        <?php
+                        $similarResult = mysql_query(" SELECT g.id, g.platform, g.GameTitle, p.name, p.icon FROM games as g, platforms as p WHERE g.GameTitle = \"$game->GameTitle\" AND g.Platform <> '$game->Platform' AND g.Platform = p.id ORDER BY p.name");
+                        $similarRowCount = mysql_num_rows($similarResult);
+                        if ($similarRowCount > 0) {
+                            ?>
                             <p>This game exists on <?= $similarRowCount ?> other platforms.</p>
-                    <?php
-                    while ($similarRow = mysql_fetch_assoc($similarResult)) {
-                        ?>
+                            <?php
+                            while ($similarRow = mysql_fetch_assoc($similarResult)) {
+                                ?>
                                 <div style="margin-top: 10px; font-size: 16px;">
                                     <img src="<?= $baseurl ?>/images/common/consoles/png32/<?= $similarRow['icon'] ?>" alt="<?= $similarRow['name'] ?>" style="vertical-align: -8px;" />&nbsp;&nbsp;
                                     <a href="<?= $baseurl ?>?tab=game&id=<?= $similarRow['id'] ?>"><?= $similarRow['name'] ?> - <?= $similarRow['GameTitle'] ?></a>
                                 </div>
-            <?php
-        }
-        ?>
+                                <?php
+                            }
+                            ?>
                             <p>If you know this game exists on another platform, why not <a href="<?= $baseurl ?>?tab=addgame&passTitle=<?= urlencode($game->GameTitle) ?>">add it</a>.</p>
-        <?php
-    } else {
-        ?>
+                            <?php
+                        } else {
+                            ?>
                             <p>There are currently no other platforms that have this game yet...</p>
                             <p>If you know of one, why not <a href="<?= $baseurl ?>?tab=addgame&passTitle=<?= urlencode($game->GameTitle) ?>">add it</a>.</p>
-                    <?php
-                }
-                ?>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
                 <div style="clear: both;"></div>
             </div>
 
             <div id="trailer">
-                    <?php if ($game->Youtube != "") { ?>
+                <?php if ($game->Youtube != "") { ?>
                     <div style="margin: auto; width: 853px; box-shadow: 0px 0px 22px #000;">
                         <iframe width="853" height="510" src="http://www.youtube.com/embed/<?= str_replace("&hd=1", "", str_replace("?hd=1", "", "$game->Youtube")) . "?hd=1" ?>" frameborder="0" allowfullscreen></iframe>
                         <div style="clear: both;"></div>
                     </div>
-                    <?php } else { ?>
+                <?php } else { ?>
                     <div style="margin: auto; width: 500px; box-shadow: 0px 0px 22px #000; border-radius: 16px; background-color: #1e1e1e;">
                         <p style="color: #fff; font-size: 18px; text-shadow: 0px 0px 5px #000; text-align: center; padding: 125px 10px;">This game does not currently have a trailer added.</p>
                     </div>
-                    <?php } ?>
+                <?php } ?>
             </div>
 
         </div>
@@ -739,37 +731,37 @@ $game = mysql_fetch_object($result);
                             <span style="float: right;"><?= date("l, jS F Y - g:i A (T)", strtotime($comments->timestamp)) ?></span>
                             <h2><?= $comments->username; ?> says...</h2>
                             <p><?= $comments->comment; ?></p>
-            <?php
-            if ($comments->userid == $user->id || $adminuserlevel == 'ADMINISTRATOR') {
-                ?>
+                            <?php
+                            if ($comments->userid == $user->id || $adminuserlevel == 'ADMINISTRATOR') {
+                                ?>
                                 <p style="text-align: right;"><a href="<?= $baseurl; ?>/game/<?= $game->id; ?>/?function=Delete+Game+Comment&commentid=<?= $comments->id; ?>">Delete Comment</a></p>
                                 <?php
                             }
                             ?>
                             <div style="clear: both;"></div>
                         </div>
-            <?php
-        }
-    }
-    if ($loggedin == 1) {
-        // LEAVE COMMENT LOGGED IN
-        ?>
-                    <div class="comment">
-        <?php
-        $filename = glob("banners/users/" . $user->id . "-*.jpg");
-        if (file_exists($filename[0])) {
-            ?>
-                            <div style="float: left; width: 64px; height: 64px; padding: 0px 15px 15px 0px; text-align: center;"><img src="<?= $baseurl; ?>/<?= $filename[0]; ?>" alt="<?= $user->username; ?>" title="<?= $user->username; ?>" /></div>
                         <?php
-                        $filename = null;
-                    } else {
-                        $gravatarID = md5(strtolower(trim($user->emailaddress)));
-                        $defaultBanner = urlencode($baseurl . "/images/common/icons/user-black_64.png");
-                        ?>
+                    }
+                }
+                if ($loggedin == 1) {
+                    // LEAVE COMMENT LOGGED IN
+                    ?>
+                    <div class="comment">
+                        <?php
+                        $filename = glob("banners/users/" . $user->id . "-*.jpg");
+                        if (file_exists($filename[0])) {
+                            ?>
+                            <div style="float: left; width: 64px; height: 64px; padding: 0px 15px 15px 0px; text-align: center;"><img src="<?= $baseurl; ?>/<?= $filename[0]; ?>" alt="<?= $user->username; ?>" title="<?= $user->username; ?>" /></div>
+                            <?php
+                            $filename = null;
+                        } else {
+                            $gravatarID = md5(strtolower(trim($user->emailaddress)));
+                            $defaultBanner = urlencode($baseurl . "/images/common/icons/user-black_64.png");
+                            ?>
                             <img style="float: left; padding: 0px 15px 5px 0px;" src="http://www.gravatar.com/avatar/<?= $gravatarID ?>?s=64&r=pg&d=<?= $defaultBanner ?>" alt="<?= $user->username; ?>" title="<?= $user->username; ?>" />
-            <?php
-        }
-        ?>
+                            <?php
+                        }
+                        ?>
                         <?php
                         if (!mysql_num_rows($commentsQuery)) {
                             ?>
@@ -779,9 +771,9 @@ $game = mysql_fetch_object($result);
                         } else {
                             ?>
                             <h2>Leave a comment...</h2>
-            <?php
-        }
-        ?>
+                            <?php
+                        }
+                        ?>
                         <p>Comments are plain-text only: bb-code, html and so forth are not allowed.</p>
                         <form method="post" action="<?= $baseurl; ?>/game/<?= $game->id; ?>/">
                             <textarea name="comment" style="width: 100%; height: 60px;"></textarea>
@@ -792,32 +784,32 @@ $game = mysql_fetch_object($result);
                         </form>
                         <div style="clear: both;"></div>
                     </div>
-        <?php
-    } else {
-        // LEAVE COMMENT NOT LOGGED IN
-        ?>
+                    <?php
+                } else {
+                    // LEAVE COMMENT NOT LOGGED IN
+                    ?>
                     <div class="comment">
                         <img style="float: left; padding: 0px 15px 5px 0px;" src="<?= $baseurl; ?>/images/common/icons/user-black_64.png" />
-        <?php
-        if (!mysql_num_rows($commentsQuery)) {
-            ?>
+                        <?php
+                        if (!mysql_num_rows($commentsQuery)) {
+                            ?>
                             <h2>No one has left a comment yet...</h2>
                             <p>Be the first to leave a comment!</p>
-            <?php
-        } else {
-            ?>
+                            <?php
+                        } else {
+                            ?>
                             <h2>Leave a comment...</h2>
-            <?php
-        }
-        ?>
+                            <?php
+                        }
+                        ?>
                         <p>Comments are plain-text only: bb-code, html and so forth are not allowed.</p>
                         <div style="clear: both;"></div>
                         <p style="font-size: 14px; text-align: center"><em>You must be logged in to leave a comment,<br />click <a href="<?= $baseurl ?>/login/?redirect=<?= urlencode($_SERVER["REQUEST_URI"]) ?>">here</a> to log in...</em></p>
                         <div style="clear: both;"></div>
                     </div>
-        <?php
-    }
-    ?>
+                    <?php
+                }
+                ?>
                 <div style="width: 96%; margin: auto; background: #333; box-shadow: 0px 0px 22px #000; border-radius: 16px; text-align: center;">
                 </div>
                 <div style="clear: both;"></div>

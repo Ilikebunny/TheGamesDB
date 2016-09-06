@@ -22,6 +22,9 @@ if ($tab != "nojs") {
 <link rel="stylesheet" href="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/COLOURloversColorPicker.css" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-ui/css/trontastic/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />
 
+<!--Customs CSS-->
+<link rel="stylesheet" href="<?php echo $baseurl; ?>/css/gdb_admin.css" type="text/css" media="all" />
+
 <script type="text/JavaScript" src="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/js/COLOURloversColorPicker.js"></script>
 <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/JavaScript" src="<?php echo $baseurl; ?>/js/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
@@ -140,7 +143,7 @@ include("js/core-js.php");
             </a>
         </div>
     </div>
-    
+
     <?php
     include("templates/default/main_nav.php");
     ?>

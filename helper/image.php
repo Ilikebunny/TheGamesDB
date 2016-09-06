@@ -98,4 +98,15 @@ function imageDualResize($filename, $cleanFilename, $wtarget, $htarget) {
     return "src=\"$baseurl/$cleanFilename\"";
 }
 
+function imageUsername($artID) {
+    ## Get the user who uploaded
+    $query = "SELECT u.id, u.username FROM users AS u, banners AS b WHERE b.id = '$artID' AND u.id = b.userid";
+    $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+    $imageUser = mysql_fetch_object($result);
+
+    $str = "Uploader:&nbsp;<a href='$baseurl/artistbanners/?id=$imageUser->id' style='color: orange;'>$imageUser->username</a>";
+
+    return $str;
+}
+
 ?>
