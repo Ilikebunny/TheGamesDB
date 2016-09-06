@@ -1,75 +1,6 @@
 <?php
-include_once('simpleimage.php');
+include('helper/image.php');
 
-function imageResize($filename, $cleanFilename, $target, $axis) {
-    if (!file_exists($cleanFilename)) {
-        $dims = getimagesize($filename);
-        $width = $dims[0];
-        $height = $dims[1];
-        //takes the larger size of the width and height and applies the formula accordingly...this is so this script will work dynamically with any size image
-
-        if ($axis == "width") {
-            $percentage = ($target / $width);
-        } else if ($axis == "height") {
-            $percentage = ($target / $height);
-        } else if ($width > $height) {
-            $percentage = ($target / $width);
-        } else {
-            $percentage = ($target / $height);
-        }
-
-        //gets the new value and applies the percentage, then rounds the value
-        $width = round($width * $percentage);
-        $height = round($height * $percentage);
-
-        $image = new SimpleImage();
-        $image->load($filename);
-        $image->resize($width, $height);
-        $image->save($cleanFilename);
-        $image = null;
-    }
-    //returns the new sizes in html image tag format...this is so you can plug this function inside an image tag and just get the
-    return "src=\"$baseurl/$cleanFilename\"";
-}
-
-function imageDualResize($filename, $cleanFilename, $wtarget, $htarget) {
-    if (!file_exists($cleanFilename)) {
-        $dims = getimagesize($filename);
-        $width = $dims[0];
-        $height = $dims[1];
-
-        while ($width > $wtarget || $height > $htarget) {
-            if ($width > $wtarget) {
-                $percentage = ($wtarget / $width);
-            }
-
-            if ($height > $htarget) {
-                $percentage = ($htarget / $height);
-            }
-
-            /* if($width > $height)
-              {
-              $percentage = ($target / $width);
-              }
-              else
-              {
-              $percentage = ($target / $height);
-              } */
-
-            //gets the new value and applies the percentage, then rounds the value
-            $width = round($width * $percentage);
-            $height = round($height * $percentage);
-        }
-
-        $image = new SimpleImage();
-        $image->load($filename);
-        $image->resize($width, $height);
-        $image->save($cleanFilename);
-        $image = null;
-    }
-    //returns the new sizes in html image tag format...this is so you can plug this function inside an image tag and just get the
-    return "src=\"$baseurl/$cleanFilename\"";
-}
 ?>
 
 <?php
@@ -170,7 +101,7 @@ if (mysql_num_rows($result) != 0) {
         $boxart = mysql_fetch_object($boxartResult);
         if (!empty($boxart)) {
             ?>
-                        <img class="imgShadow" <?= imageResize("$baseurl/banners/$boxart->filename", "banners/_platformviewcache/$boxart->filename", 300, "width") ?> alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
+                        <img class="imgShadow" <?= imageResizePlatform("$baseurl/banners/$boxart->filename", "banners/_platformviewcache/$boxart->filename", 300, "width") ?> alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
                                 <?php
                             } else {
                                 ?>
@@ -382,7 +313,7 @@ if (mysql_num_rows($result) != 0) {
                                     while ($fanart = mysql_fetch_object($fanartResult)) {
                                         // $dims = getimagesize("$baseurl/banners/$fanart->filename"); echo "$dims[0] x $dims[1]"; 
                                         ?>
-                                        <img  class="fanartSlide imgShadow" <?= imageResize("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $platform->name; ?> Fanart" title="<a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a>" />
+                                        <img  class="fanartSlide imgShadow" <?= imageResizePlatform("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $platform->name; ?> Fanart" title="<a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a>" />
                                         <?php
                                         $fanSlideCount++;
                                     }
