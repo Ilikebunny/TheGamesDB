@@ -10,12 +10,7 @@ if ($loggedin = 1 && $adminuserlevel == 'ADMINISTRATOR') {
 
     <div id="gameHead">
 
-        <?php if ($errormessage): ?>
-            <div class="error"><?= $errormessage ?></div>
-        <?php endif; ?>
-        <?php if ($message): ?>
-            <div class="message"><?= $message ?></div>
-        <?php endif; ?>
+        <?php include('snippets/errorsAndMessages.php'); ?>
 
         <div>
             <h1>Admin Control Panel</h1>
