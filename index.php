@@ -1,4 +1,5 @@
 <?php
+
 ## Workaround Fix for lack of "register globals" in PHP 5.4+
 require_once("globalsfix.php");
 
@@ -22,10 +23,9 @@ include("modules/mod_user.php");
 include("modules/mod_admin.php");
 include("modules/mod_other.php");
 
-if ($tab != "login" && isset($redirect))
-{
-	header("Location: $baseurl$redirect");
-	exit;
+if ($tab != "login" && isset($redirect)) {
+    header("Location: $baseurl$redirect");
+    exit;
 }
 
 ## Default tab
@@ -33,28 +33,24 @@ if ($tab == "") {
     $tab = 'mainmenu';
 }
 
-if($tab != "mainmenu")
-{
-	if(!isset($headless))
-	{
-	    $tabFile = "tab_$tab.php";
-	    if (!file_exists($tabFile)) {
-	        header("HTTP/1.0 404 Not Found");
-	        $tabFile = "tab_404.php";
-	    }
-	    
-		// Load Template Header
-		include("templates/default/header.php");
-		
-		// Load Tab Content
-		include($tabFile);
-		
-		// Load Template Header
-		include("templates/default/footer.php");
-	}
-}
-else
-{
-	include("templates/default/front.php");
+if ($tab != "mainmenu") {
+    if (!isset($headless)) {
+        $tabFile = "tab_$tab.php";
+        if (!file_exists($tabFile)) {
+            header("HTTP/1.0 404 Not Found");
+            $tabFile = "tab_404.php";
+        }
+
+        // Load Template Header
+        include("templates/default/header.php");
+
+        // Load Tab Content
+        include($tabFile);
+
+        // Load Template Header
+        include("templates/default/footer.php");
+    }
+} else {
+    include("templates/default/front.php");
 }
 ?>
