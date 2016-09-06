@@ -28,7 +28,7 @@ function imageResize($filename, $cleanFilename, $target) {
     return "src=\"$baseurl/$cleanFilename\"";
 }
 
-function imageResizePlatform($filename, $cleanFilename, $target, $axis) {
+function imageResize2($filename, $cleanFilename, $target, $axis) {
     if (!file_exists($cleanFilename)) {
         $dims = getimagesize($filename);
         $width = $dims[0];

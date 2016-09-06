@@ -17,6 +17,22 @@ function platform_exist($idPlatform, &$errorMessage) {
     return $exist;
 }
 
+function platform_getById($idPlatform) {
+    $id = mysql_real_escape_string($idPlatform);
+    $query = "SELECT p.* FROM platforms as p WHERE p.id=$id";
+    $result = mysql_query($query) or die('Fetch Platform Info Query Failed: ' . mysql_error());
+    $platform = mysql_fetch_object($result);
+    return $platform;
+}
+
+function platform_getByAlias($aliasPlatform) {
+    $alias = mysql_real_escape_string($aliasPlatform);
+    $query = "SELECT p.* FROM platforms as p WHERE p.alias='$alias'";
+    $result = mysql_query($query) or die('Fetch Platform Info Query Failed: ' . mysql_error());
+    $platform = mysql_fetch_object($result);
+    return $platform;
+}
+
 function platform_getAverageRating($idPlatform) {
     $ratingquery = "SELECT AVG(rating) AS average, count(*) AS count FROM ratings WHERE itemtype='platform' AND itemid=$idPlatform";
     $ratingresult = mysql_query($ratingquery) or die('Query failed: ' . mysql_error());

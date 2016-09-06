@@ -1,43 +1,38 @@
 <?php
 include('helper/image.php');
 include('helper/general.php');
-
+include('modeles/modele_platform.php');
 ?>
 
 <?php
 // Fetch Platform Information from DB
 if (isset($alias)) {
-    $alias = mysql_real_escape_string($alias);
-    $query = "SELECT p.* FROM platforms as p WHERE p.alias='$alias'";
+    $platform = platform_getByAlias($alias);
 } else {
-    $id = mysql_real_escape_string($id);
-    $query = "SELECT p.* FROM platforms as p WHERE p.id=$id";
+    $platform = platform_getById($id);
 }
-$result = mysql_query($query) or die('Fetch Platform Info Query Failed: ' . mysql_error());
-$rows = mysql_num_rows($result);
-$platform = mysql_fetch_object($result);
 ?>
 
 <div id="gameHead">
 
-<?php if ($errormessage): ?>
+    <?php if ($errormessage): ?>
         <div class="error"><?= $errormessage ?></div>
-<?php endif; ?>
-<?php if ($message): ?>
+    <?php endif; ?>
+    <?php if ($message): ?>
         <div class="message"><?= $message ?></div>
-<?php endif; ?>
+    <?php endif; ?>
 
-<?php
-if (mysql_num_rows($result) != 0) {
-    ?>
+    <?php
+    if (isset($platform)) {
+        ?>
 
         <div id="gamePlatformIcon"></div>
         <div id="gameTitle">
 
             <span id="gameUserLinks">
-        <?php if ($loggedin == 1) { ?>
+                <?php if ($loggedin == 1) { ?>
                     <a class="greyButton" href="<?= $baseurl ?>/platform-edit/<?= $platform->id ?>/"><img src="<?php echo $baseurl; ?>/images/common/icons/edit_16.png" style="vertical-align: middle;" />&nbsp;Edit this Platform</a>
-        <?php } ?>
+                <?php } ?>
                 <a id="shareButton" class="greyButton"><img src="<?php echo $baseurl; ?>/images/common/icons/social_16.png" style="vertical-align: -2px;"/>&nbsp;Share</a>
             </span>
 
@@ -84,33 +79,35 @@ if (mysql_num_rows($result) != 0) {
 
             </div>
 
-            <h1 style="margin: 0px; padding: 0px;"><img src="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php if (!empty($platform->icon)) {
-        echo $platform->icon;
-    } else {
-        echo "console_default.png";
-    } ?>" alt="<?php echo $platform->name; ?>" title="<?php echo $platform->name; ?>" style="vertical-align: middle;" />&nbsp;<?php echo $platform->name; ?></h1>
-    <?php if (!empty($game->Alternates)) { ?>
+            <h1 style="margin: 0px; padding: 0px;"><img src="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php
+                if (!empty($platform->icon)) {
+                    echo $platform->icon;
+                } else {
+                    echo "console_default.png";
+                }
+                ?>" alt="<?php echo $platform->name; ?>" title="<?php echo $platform->name; ?>" style="vertical-align: middle;" />&nbsp;<?php echo $platform->name; ?></h1>
+                                                        <?php if (!empty($game->Alternates)) { ?>
                 <h3><span style="color: #888; font-size: 13px;"><em>
-        <?php echo "a.k.a. ' " . str_replace(",", ", ", $game->Alternates) . " ' "; ?>
+                            <?php echo "a.k.a. ' " . str_replace(",", ", ", $game->Alternates) . " ' "; ?>
                         </em></span></h3>
-    <?php } ?>
+            <?php } ?>
         </div>
         <div id="gameCoversWrapper">
             <div id="gameCovers">
-    <?php
-    if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-boxart' LIMIT 1 ")) {
-        $boxart = mysql_fetch_object($boxartResult);
-        if (!empty($boxart)) {
-            ?>
-                        <img class="imgShadow" <?= imageResizePlatform("$baseurl/banners/$boxart->filename", "banners/_platformviewcache/$boxart->filename", 300, "width") ?> alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
-                                <?php
-                            } else {
-                                ?>
+                <?php
+                if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-boxart' LIMIT 1 ")) {
+                    $boxart = mysql_fetch_object($boxartResult);
+                    if (!empty($boxart)) {
+                        ?>
+                        <img class="imgShadow" <?= imageResize2("$baseurl/banners/$boxart->filename", "banners/_platformviewcache/$boxart->filename", 300, "width") ?> alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
+                        <?php
+                    } else {
+                        ?>
                         <img class="imgShadow" src="<?php echo $baseurl; ?>/images/common/placeholders/boxart_blank.png" width="300" height="417" alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
-            <?php
-        }
-    }
-    ?>
+                        <?php
+                    }
+                }
+                ?>
             </div>
         </div>
         <div id="gameInfo">
@@ -149,25 +146,27 @@ if (mysql_num_rows($result) != 0) {
             <hr />
             <p style="text-align: center;"><a class="greyButton" href="<?= $baseurl ?>/browse/<?= $platform->id ?>/"><img src="<?php echo $baseurl; ?>/images/common/icons/question-block_24.png" style="width:16px; height: 16px; vertical-align: -2px;" />&nbsp;Browse Games For This Platform</a></p>
             <hr />
-            <p><?php if (!empty($platform->overview)) {
-                echo $platform->overview;
-            } else {
-                echo "\"No overview is currently available for this platform.\"";
-            } ?></p>
+            <p><?php
+                if (!empty($platform->overview)) {
+                    echo $platform->overview;
+                } else {
+                    echo "\"No overview is currently available for this platform.\"";
+                }
+                ?></p>
             <hr />
-                <?php
-                if (!empty($platform->console)) {
-                    ?>
+            <?php
+            if (!empty($platform->console)) {
+                ?>
                 <div id="consoleArt" style="float: left; width: 300px; padding: 6px; margin: 0px 3px;">
                     <h3 class="grey">Console Art</h3>
                     <img src="<?= $baseurl ?>/banners/platform/consoleart/<?= $platform->console ?>" alt="<?= $platform->name ?> Console Art" title="<?= $platform->name ?> Console Art" style="margin-top: 12px;"/>
                 </div>
-                    <?php
-                }
+                <?php
+            }
+            ?>
+            <?php
+            if (!empty($platform->controller)) {
                 ?>
-    <?php
-    if (!empty($platform->controller)) {
-        ?>
                 <div id="controllerArt" style="float: left; width: 300px; padding: 6px; margin: 0px 3px;">
                     <h3 class="grey">Controller Art</h3>
                     <img src="<?= $baseurl ?>/banners/platform/controllerart/<?= $platform->controller ?>" alt="<?= $platform->name ?> Controller Art" title="<?= $platform->name ?> Controller Art" style="margin-top: 12px;"/>
@@ -176,97 +175,127 @@ if (mysql_num_rows($result) != 0) {
             }
             ?>
             <div style="clear: both;"></div>
-    <?php
-    if (!empty($platform->console) || !empty($platform->controller)) {
-        ?>
+            <?php
+            if (!empty($platform->console) || !empty($platform->controller)) {
+                ?>
                 <div style="clear: both;"></div>
                 <hr />
                 <?php
             }
             ?>
             <div id="gameVitals">
-                <p><span class="grey">Developer</span>&nbsp;&nbsp;<?php if (!empty($platform->developer)) {
-            echo $platform->developer;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Manufacturer</span>&nbsp;&nbsp;<?php if (!empty($platform->manufacturer)) {
-            echo $platform->manufacturer;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">CPU</span>&nbsp;&nbsp;<?php if (!empty($platform->cpu)) {
-            echo $platform->cpu;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Memory</span>&nbsp;&nbsp;<?php if (!empty($platform->memory)) {
-            echo $platform->memory;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Graphics</span>&nbsp;&nbsp;<?php if (!empty($platform->graphics)) {
-            echo $platform->graphics;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Sound</span>&nbsp;&nbsp;<?php if (!empty($platform->sound)) {
-            echo $platform->sound;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Display</span>&nbsp;&nbsp;<?php if (!empty($platform->display)) {
-            echo $platform->display;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Media</span>&nbsp;&nbsp;<?php if (!empty($platform->media)) {
-            echo $platform->media;
-        } else {
-            echo "N/A";
-        } ?></p>
-                <p><span class="grey">Max. Controllers</span>&nbsp;&nbsp;<?php if (!empty($platform->maxcontrollers)) {
-            echo $platform->maxcontrollers;
-        } else {
-            echo "N/A";
-        } ?></p>
+                <p><span class="grey">Developer</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->developer)) {
+                        echo $platform->developer;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Manufacturer</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->manufacturer)) {
+                        echo $platform->manufacturer;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">CPU</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->cpu)) {
+                        echo $platform->cpu;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Memory</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->memory)) {
+                        echo $platform->memory;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Graphics</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->graphics)) {
+                        echo $platform->graphics;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Sound</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->sound)) {
+                        echo $platform->sound;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Display</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->display)) {
+                        echo $platform->display;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Media</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->media)) {
+                        echo $platform->media;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
+                <p><span class="grey">Max. Controllers</span>&nbsp;&nbsp;<?php
+                    if (!empty($platform->maxcontrollers)) {
+                        echo $platform->maxcontrollers;
+                    } else {
+                        echo "N/A";
+                    }
+                    ?></p>
             </div>
-    <?php if ($game->Platform == 1 || $game->Platform == 37) { ?>
+            <?php if ($game->Platform == 1 || $game->Platform == 37) { ?>
                 <hr />
                 <div id="sysReq">
                     <p><span class="grey">System Requirements</span></p>
-                    <p><span class="grey">OS:</span> <?php if ($game->os == "") {
-            echo "N/A";
-        } else {
-            echo $game->os;
-        } ?><br />
-                        <span class="grey">Processor:</span> <?php if ($game->processor == "") {
-            echo "N/A";
-        } else {
-            echo $game->processor;
-        } ?><br />
-                        <span class="grey">RAM:</span> <?php if ($game->ram == "") {
-            echo "N/A";
-        } else {
-            echo $game->ram;
-        } ?><br />
-                        <span class="grey">Hard Drive:</span> <?php if ($game->hdd == "") {
-            echo "N/A";
-        } else {
-            echo $game->hdd;
-        } ?><br />
-                        <span class="grey">Video:</span> <?php if ($game->video == "") {
-            echo "N/A";
-        } else {
-            echo $game->video;
-        } ?><br />
-                        <span class="grey">Sound:</span> <?php if ($game->sound == "") {
-                        echo "N/A";
-                    } else {
-                        echo $game->sound;
-                    } ?></p>
+                    <p><span class="grey">OS:</span> <?php
+                        if ($game->os == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->os;
+                        }
+                        ?><br />
+                        <span class="grey">Processor:</span> <?php
+                        if ($game->processor == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->processor;
+                        }
+                        ?><br />
+                        <span class="grey">RAM:</span> <?php
+                        if ($game->ram == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->ram;
+                        }
+                        ?><br />
+                        <span class="grey">Hard Drive:</span> <?php
+                        if ($game->hdd == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->hdd;
+                        }
+                        ?><br />
+                        <span class="grey">Video:</span> <?php
+                        if ($game->video == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->video;
+                        }
+                        ?><br />
+                        <span class="grey">Sound:</span> <?php
+                        if ($game->sound == "") {
+                            echo "N/A";
+                        } else {
+                            echo $game->sound;
+                        }
+                        ?></p>
                 </div>
-                            <? } ?>
+            <? } ?>
 
         </div>
         <div style="clear:both"></div>
@@ -306,7 +335,7 @@ if (mysql_num_rows($result) != 0) {
                                     while ($fanart = mysql_fetch_object($fanartResult)) {
                                         // $dims = getimagesize("$baseurl/banners/$fanart->filename"); echo "$dims[0] x $dims[1]"; 
                                         ?>
-                                        <img  class="fanartSlide imgShadow" <?= imageResizePlatform("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $platform->name; ?> Fanart" title="<a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a>" />
+                                        <img  class="fanartSlide imgShadow" <?= imageResize2("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $platform->name; ?> Fanart" title="<a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a>" />
                                         <?php
                                         $fanSlideCount++;
                                     }
@@ -328,29 +357,29 @@ if (mysql_num_rows($result) != 0) {
 
                     <div class="slider-wrapper theme-default">
                         <div id="screensRibbon" style="position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-fanart.png) no-repeat; z-index: 10"></div>
-    <?php
-    if ($screenResult = mysql_query(" SELECT b.filename, AVG(r.rating) AS rating FROM games AS g, banners AS b, ratings AS r WHERE r.itemid = b.id AND g.id = b.keyvalue AND r.itemtype = 'banner' AND b.keytype = 'fanart' AND g.Platform = $platform->id GROUP BY b.filename HAVING AVG(r.rating) > 5 ORDER BY AVG(r.rating) DESC LIMIT 10 ")) {
-        if (mysql_num_rows($screenResult) > 0) {
-            ?>
+                        <?php
+                        if ($screenResult = mysql_query(" SELECT b.filename, AVG(r.rating) AS rating FROM games AS g, banners AS b, ratings AS r WHERE r.itemid = b.id AND g.id = b.keyvalue AND r.itemtype = 'banner' AND b.keytype = 'fanart' AND g.Platform = $platform->id GROUP BY b.filename HAVING AVG(r.rating) > 5 ORDER BY AVG(r.rating) DESC LIMIT 10 ")) {
+                            if (mysql_num_rows($screenResult) > 0) {
+                                ?>
                                 <div id="screenSlider" class="nivoSlider">
-                            <?php
-                            $screenSlideCount = 0;
-                            while ($screen = mysql_fetch_object($screenResult)) {
-                                ?>
-                                        <img  class="screenSlide" <?= imageDualResize("$baseurl/banners/$screen->filename", "banners/_platformviewcache/$screen->filename", 470, 264) ?> alt="<?php echo $platform->name; ?> Top-Rated Fanart" title="Top-Rated Game Fanart for this Platform | <a href='<?= "$baseurl/banners/$screen->filename" ?>' target='_blank'>View Full-Size</a>" />
                                     <?php
-                                    $screenSlideCount++;
-                                }
-                                ?>
+                                    $screenSlideCount = 0;
+                                    while ($screen = mysql_fetch_object($screenResult)) {
+                                        ?>
+                                        <img  class="screenSlide" <?= imageDualResize("$baseurl/banners/$screen->filename", "banners/_platformviewcache/$screen->filename", 470, 264) ?> alt="<?php echo $platform->name; ?> Top-Rated Fanart" title="Top-Rated Game Fanart for this Platform | <a href='<?= "$baseurl/banners/$screen->filename" ?>' target='_blank'>View Full-Size</a>" />
+                                        <?php
+                                        $screenSlideCount++;
+                                    }
+                                    ?>
                                 </div>
                                 <?php
                             } else {
                                 ?>
                                 <img class="imgShadow" src="<?php echo $baseurl; ?>/images/common/placeholders/fanart_blank.png" width="470" height="264" alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
-                            <?php
+                                <?php
+                            }
                         }
-                    }
-                    ?>	
+                        ?>	
                     </div>
                 </div>
 
@@ -361,20 +390,20 @@ if (mysql_num_rows($result) != 0) {
             <div id="banners">
                 <div class="slider-wrapper theme-default">
                     <div id="bannerRibbon" style="display: none; position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-banners.png) no-repeat; z-index: 10"></div>
-    <?php
-    if ($bannerResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-banner' ") or die("banner query failed" . mysql_error())) {
-        if (mysql_num_rows($bannerResult) > 0) {
-            ?>
-                            <div id="bannerSlider" class="nivoSlider" style="width:760px important; height: 140px !important;">
-                            <?php
-                            $bannerSlideCount = 0;
-                            while ($banner = mysql_fetch_array($bannerResult)) {
-                                ?>
-                                    <img class="bannerSlide" src="<?= "$baseurl/banners/$banner[filename]" ?>" alt="<?php echo $platform->name; ?> Banner" />
-                                <?php
-                                $bannerSlideCount++;
-                            }
+                    <?php
+                    if ($bannerResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-banner' ") or die("banner query failed" . mysql_error())) {
+                        if (mysql_num_rows($bannerResult) > 0) {
                             ?>
+                            <div id="bannerSlider" class="nivoSlider" style="width:760px important; height: 140px !important;">
+                                <?php
+                                $bannerSlideCount = 0;
+                                while ($banner = mysql_fetch_array($bannerResult)) {
+                                    ?>
+                                    <img class="bannerSlide" src="<?= "$baseurl/banners/$banner[filename]" ?>" alt="<?php echo $platform->name; ?> Banner" />
+                                    <?php
+                                    $bannerSlideCount++;
+                                }
+                                ?>
                             </div>
                             <?php
                         } else {
@@ -393,13 +422,13 @@ if (mysql_num_rows($result) != 0) {
             <div id="platforms">
                 <div style="padding: 20px;">
                     <h3 style="color: #fff; text-align: center;">Top Rated Games for <?= $platform->name ?></h3>
-    <?php
-    $sql = "SELECT DISTINCT g.GameTitle, AVG(r.rating) AS gamerating, g.id FROM games AS g, platforms AS p, ratings AS r WHERE g.Platform = $platform->id AND r.itemid = g.id AND r.itemtype = 'game'  GROUP BY g.GameTitle, g.id ORDER BY AVG(r.rating)  DESC LIMIT 6";
-    $result = mysql_query($sql);
-    if ($result != false) {
-        $rows = mysql_num_rows($result);
-        //echo "NUMBER: $rows<br />";
-        ?>
+                    <?php
+                    $sql = "SELECT DISTINCT g.GameTitle, AVG(r.rating) AS gamerating, g.id FROM games AS g, platforms AS p, ratings AS r WHERE g.Platform = $platform->id AND r.itemid = g.id AND r.itemtype = 'game'  GROUP BY g.GameTitle, g.id ORDER BY AVG(r.rating)  DESC LIMIT 6";
+                    $result = mysql_query($sql);
+                    if ($result != false) {
+                        $rows = mysql_num_rows($result);
+                        //echo "NUMBER: $rows<br />";
+                        ?>
                         <?php
                         while ($row = mysql_fetch_object($result)) {
                             $coverResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = $row->id AND b.keytype = 'boxart' AND b.filename LIKE '%front%' LIMIT 1 ");
@@ -410,41 +439,41 @@ if (mysql_num_rows($result) != 0) {
                                 ?>
                                 <div class="topGame" style="width: 240px; height: 270px; padding: 20px;  float: left; margin: 16px;">
                                     <div style="height: 202px; text-align: center;">
-                            <?php if ($cover->filename != false) { ?>
+                                        <?php if ($cover->filename != false) { ?>
                                             <a href="<?= $baseurl ?>/game/<?= $row->id ?>/"><img class="imgShadow" <?= imageDualResize("$baseurl/banners/$cover->filename", "banners/_platformviewcache/$cover->filename", 200, 200) ?> style="border: 1px solid #FFF" alt="<?= $row->GameTitle ?>" title="<?= $row->GameTitle ?>" /></a>
-                <?php } else { ?>
+                                        <?php } else { ?>
                                             <a href="<?= $baseurl ?>/game/<?= $row->id ?>/"><img class="imgShadow" src="<?= $baseurl ?>/images/common/placeholders/boxart_blank.png" style="width: 140px; height: 200px; border: 1px solid #FFF" alt="<?= $row->GameTitle ?>" title="<?= $row->GameTitle ?>" /></a>
-                <?php } ?>
+                                        <?php } ?>
                                     </div>
                                     <div style="text-align: center;">
                                         <p><a href="<?= $baseurl ?>/game/<?= $row->id ?>/"><?= $row->GameTitle ?></a><br />
                                             Site Rating: <?= (int) $row->gamerating ?>/10</p>
                                     </div>
                                 </div>
-                <?php
-            }
-        }
-        ?>
+                                <?php
+                            }
+                        }
+                        ?>
 
-        <?php
-    }
-    ?>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <!-- </div> -->
                 <div style="clear: both;"></div>
             </div>
 
             <div id="trailer">
-    <?php if ($platform->youtube != "") { ?>
+                <?php if ($platform->youtube != "") { ?>
                     <div style="margin: auto; width: 853px; box-shadow: 0px 0px 22px #000;">
                         <iframe width="853" height="510" src="http://www.youtube.com/embed/<?= str_replace("&hd=1", "", str_replace("?hd=1", "", "$platform->youtube")) . "?hd=1" ?>" frameborder="0" allowfullscreen></iframe>
                         <div style="clear: both;"></div>
                     </div>
-    <?php } else { ?>
+                <?php } else { ?>
                     <div style="margin: auto; width: 500px; box-shadow: 0px 0px 22px #000; border-radius: 16px; background-color: #1e1e1e;">
                         <p style="color: #fff; font-size: 18px; text-shadow: 0px 0px 5px #000; text-align: center; padding: 125px 10px;">This platform does not currently have a trailer added.</p>
                     </div>
-    <?php } ?>
+                <?php } ?>
             </div>
 
         </div>
@@ -633,8 +662,12 @@ if (mysql_num_rows($result) != 0) {
                         $(this).click(function (event) {
                             event.preventDefault();
                             $(scrollElem).animate({scrollTop: targetOffset}, 400, function () {
-                                location.hash = target;          });        });      }
-                }  });
+                                location.hash = target;
+                            });
+                        });
+                    }
+                }
+            });
             // use the first element that is "scrollable"
             function scrollableElement(els) {
                 for (var i = 0, argLength = arguments.length; i < argLength; i++) {
@@ -642,7 +675,9 @@ if (mysql_num_rows($result) != 0) {
                     if ($scrollElement.scrollTop() > 0) {
                         return el;
                     } else {
-                        $scrollElement.scrollTop(1);        var isScrollable = $scrollElement.scrollTop() > 0;        $scrollElement.scrollTop(0);
+                        $scrollElement.scrollTop(1);
+                        var isScrollable = $scrollElement.scrollTop() > 0;
+                        $scrollElement.scrollTop(0);
                         if (isScrollable) {
                             return el;
                         }
