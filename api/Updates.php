@@ -38,7 +38,7 @@ while ($db = mysql_fetch_object($result)) {
 $query = "SELECT path FROM deletions WHERE timestamp_deleted>=$time AND path LIKE 'data/series/%' LIMIT 1000";
 $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 while ($db = mysql_fetch_object($result)) {
-    $temp = explode("data/series/",$db->path);
+    $temp = explode("data/series/", $db->path);
     $id = $temp[1];
     print "<GameDeleted>$id</GameDeleted>\n";
 }

@@ -1,50 +1,47 @@
 <?php
 
-	include("../modules/mod_elasticsearch.php");
+include("../modules/mod_elasticsearch.php");
 
-	header('Content-type: application/json');
+header('Content-type: application/json');
 
-	$response->result = "failure";
+$response->result = "failure";
 
-	if(!empty($_REQUEST) && isset($_REQUEST['searchterm']))
-	{
-		$searchterm = $_REQUEST['searchterm'];
+if (!empty($_REQUEST) && isset($_REQUEST['searchterm'])) {
+    $searchterm = $_REQUEST['searchterm'];
 
-		// Set initial ElasticSearch Parameters
-		$searchParams = array();
-		$searchParams['index'] = 'thegamesdb';
-		$searchParams['type']  = 'game';
-		$searchParams['size']  = 6;
+    // Set initial ElasticSearch Parameters
+    $searchParams = array();
+    $searchParams['index'] = 'thegamesdb';
+    $searchParams['type'] = 'game';
+    $searchParams['size'] = 6;
 
-		$searchplatform = '';
+    $searchplatform = '';
 
-		if(isset($_REQUEST['platform']))
-		{
+    if (isset($_REQUEST['platform'])) {
 
-			$platform = $_REQUEST['platform'];
-			$searchplatform = ',
+        $platform = $_REQUEST['platform'];
+        $searchplatform = ',
 					            "filter": {
 									term: {
 					              		"PlatformId": "' . $platform . '"
 									}
 					            }
 					          ';
-		}
+    }
 
-		// Check if $search term contains an integer
-		if (strcspn($searchterm, '0123456789') != strlen($searchterm))
-		{
-			// Extract first number found in string
-			preg_match('/\d+/', $searchterm, $numbermatch, PREG_OFFSET_CAPTURE);
-			$numberAsNumber = $numbermatch[0][0];
+    // Check if $search term contains an integer
+    if (strcspn($searchterm, '0123456789') != strlen($searchterm)) {
+        // Extract first number found in string
+        preg_match('/\d+/', $searchterm, $numbermatch, PREG_OFFSET_CAPTURE);
+        $numberAsNumber = $numbermatch[0][0];
 
-			// Convert Number to Roman Numerals
-			$numberAsRoman = romanNumerals($numberAsNumber);
+        // Convert Number to Roman Numerals
+        $numberAsRoman = romanNumerals($numberAsNumber);
 
-			// Replace Number in string with RomanNumerals
-			$searchtermRoman = str_replace($numberAsNumber, $numberAsRoman, $searchterm);
+        // Replace Number in string with RomanNumerals
+        $searchtermRoman = str_replace($numberAsNumber, $numberAsRoman, $searchterm);
 
-			$json = '{
+        $json = '{
 					      "query": {
 					        "bool": {
 					          "must": [
@@ -62,11 +59,9 @@
 					        }
 					      }
 					    }';
-				$searchParams['body'] = $json;
-			}
-			else
-			{
-				$json = '{
+        $searchParams['body'] = $json;
+    } else {
+        $json = '{
 					      "query": {
 					        "bool": {
 					          "must": [
@@ -79,32 +74,28 @@
 					        }
 					      }' . $searchplatform . '
 					    }';
-				$searchParams['body'] = $json;
-			}
+        $searchParams['body'] = $json;
+    }
 
-		$elasticResults = $elasticsearchClient->search($searchParams);
+    $elasticResults = $elasticsearchClient->search($searchParams);
 
-		$gamesArray = array();
+    $gamesArray = array();
 
-		foreach ($elasticResults['hits']['hits'] as $elasticGame)
-		{
-			$gameObject->id = $elasticGame['_source']['id'];
-			$gameObject->title = $elasticGame['_source']['GameTitle'];
-			$gameObject->platform = $elasticGame['_source']['PlatformName'];
+    foreach ($elasticResults['hits']['hits'] as $elasticGame) {
+        $gameObject->id = $elasticGame['_source']['id'];
+        $gameObject->title = $elasticGame['_source']['GameTitle'];
+        $gameObject->platform = $elasticGame['_source']['PlatformName'];
 
-			array_push($gamesArray, $gameObject);
+        array_push($gamesArray, $gameObject);
 
-			unset($gameObject);
-		}
+        unset($gameObject);
+    }
 
-		if (count($gamesArray) > 0)
-		{
-			$response->games = $gamesArray;
-			$response->result = 'success';
-		}
+    if (count($gamesArray) > 0) {
+        $response->games = $gamesArray;
+        $response->result = 'success';
+    }
+}
 
-	}
-	
-	echo json_encode($response);
-
+echo json_encode($response);
 ?>

@@ -1,5 +1,6 @@
-<? 
-foreach ($_REQUEST as $key=>$val) {
-    ${$key}=$val;
+<?
+
+foreach ($_REQUEST as $key => $val) {
+    ${$key} = $val;
 }
 ?>

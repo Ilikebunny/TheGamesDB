@@ -65,7 +65,7 @@
         $rows = mysql_num_rows($result);
         ?>
         <script type="text/javascript">
-        var photos = [
+            var photos = [
     <?php
     $colours = array("orange", "blue", "purple", "green", "red", "yellow");
     $colourCount = 0;
@@ -92,14 +92,14 @@
 
             $imageUrls[] = "banners/_frontcache/$game->filename";
             ?>
-                {
-                "title" : "<?= $game->GameTitle ?>",
-                        "cssclass" : "<?= $colours[$colourCount] ?>",
-                        "image" : "banners/_frontcache/<?= $game->filename ?>",
-                        "text" : "<?= $game->name ?>",
-                        "icon" : "<?= $game->icon; ?>",
-                        "platformid" : "<?= $game->platformid; ?>",
-                        "rating" : "<?php
+                    {
+                    "title" : "<?= $game->GameTitle ?>",
+                            "cssclass" : "<?= $colours[$colourCount] ?>",
+                            "image" : "banners/_frontcache/<?= $game->filename ?>",
+                            "text" : "<?= $game->name ?>",
+                            "icon" : "<?= $game->icon; ?>",
+                            "platformid" : "<?= $game->platformid; ?>",
+                            "rating" : "<?php
             for ($i = 2; $i <= 10; $i = $i + 2) {
                 if ($i <= $rating->average) {
                     print '<img src=\'images/game/star_on.png\' width=15 height=15 border=0>';
@@ -110,9 +110,9 @@
                 }
             }
             ?>",
-                        "url" : '<?= $baseurl; ?>/game/<?= $game->id ?>/',
-                        "urltext" : 'View Game'
-                },
+                            "url" : '<?= $baseurl; ?>/game/<?= $game->id ?>/',
+                            "urltext" : 'View Game'
+                    },
             <?php
             if ($colourCount != 5) {
                 $colourCount++;
@@ -130,13 +130,13 @@
 
             $imageUrls[] = "banners/_frontcache/$game->filename";
             ?>
-                {
-                "title" : "<?= $game->GameTitle ?>",
-                        "cssclass" : "<?= $colours[$colourCount] ?>",
-                        "image" : "banners/_frontcache/<?= $game->filename ?>",
-                        "text" : "<?= $game->name ?>",
-                        "icon" : "<?= $game->icon; ?>",
-                        "rating" : "<?php
+                    {
+                    "title" : "<?= $game->GameTitle ?>",
+                            "cssclass" : "<?= $colours[$colourCount] ?>",
+                            "image" : "banners/_frontcache/<?= $game->filename ?>",
+                            "text" : "<?= $game->name ?>",
+                            "icon" : "<?= $game->icon; ?>",
+                            "rating" : "<?php
             for ($i = 2; $i <= 10; $i = $i + 2) {
                 if ($i <= $rating->average) {
                     print '<img src=\'images/game/star_on.png\' width=15 height=15 border=0>';
@@ -147,9 +147,9 @@
                 }
             }
             ?>",
-                        "url" : '<?= $baseurl; ?>/game/<?= $game->id ?>/',
-                        "urltext" : 'View Game'
-                }
+                            "url" : '<?= $baseurl; ?>/game/<?= $game->id ?>/',
+                            "urltext" : 'View Game'
+                    }
             <?php
             if ($colourCount != 2) {
                 $colourCount++;
@@ -159,7 +159,7 @@
         }
     }
     ?>
-        ];
+            ];
         </script>
         <?php
     }

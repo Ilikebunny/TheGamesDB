@@ -8,7 +8,6 @@
 ##
 ## Returns:
 ##   XML items holding the games that matches the platform string
-
 ## Include functions, db connection, etc
 include("include.php");
 
@@ -24,12 +23,9 @@ if (empty($platform)) {
 }
 
 $query;
-if (isset($platform) && !empty($platform))
-{
-	if($platformQuery = mysql_query(" SELECT id FROM platforms WHERE id = '$platform' "))
-    {
-        if($platformResult = mysql_fetch_object($platformQuery))
-        {
+if (isset($platform) && !empty($platform)) {
+    if ($platformQuery = mysql_query(" SELECT id FROM platforms WHERE id = '$platform' ")) {
+        if ($platformResult = mysql_fetch_object($platformQuery)) {
             $platformid = $platformResult->id;
             $query = " SELECT id FROM games WHERE platform = $platformid ";
         } else {
@@ -55,7 +51,7 @@ while ($obj = mysql_fetch_object($result)) {
             $value = xmlformat($value, $key);
             print "<$key>$value</$key>\n";
         }
-	}	
+    }
 
     ## End XML item
     print "</Game>\n";
