@@ -1,5 +1,6 @@
 <?php
 include('helper/image.php');
+include('helper/general.php');
 include('modeles/modele_platform.php');
 ?>
 
@@ -43,15 +44,7 @@ include('modeles/modele_platform.php');
             <span style="float: right; background-color: #333; padding: 6px; border-radius: 6px;">
                 <?php
                 $averageRating = platform_getAverageRating($recent->id);
-                for ($i = 2; $i <= 10; $i = $i + 2) {
-                    if ($i <= $averageRating) {
-                        print "<img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0 />";
-                    } else if ($averageRating > $i - 2 && $averageRating < $i) {
-                        print "<img src=\"$baseurl/images/game/star_half.png\" width=15 height=15 border=0 />";
-                    } else {
-                        print "<img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0 />";
-                    }
-                }
+                printRatingBar($averageRating);
                 ?>
             </span>
             <?php

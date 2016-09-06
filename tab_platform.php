@@ -1,5 +1,6 @@
 <?php
 include('helper/image.php');
+include('helper/general.php');
 
 ?>
 
@@ -120,15 +121,7 @@ if (mysql_num_rows($result) != 0) {
                 $result = mysql_query($query) or die('Query failed: ' . mysql_error());
                 $rating = mysql_fetch_object($result);
 
-                for ($i = 2; $i <= 10; $i = $i + 2) {
-                    if ($i <= $rating->average) {
-                        print "<img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0>";
-                    } else if ($rating->average > $i - 2 && $rating->average < $i) {
-                        print "<img src=\"$baseurl/images/game/star_half.png\" width=15 height=15 border=0>";
-                    } else {
-                        print "<img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0>";
-                    }
-                }
+                printRatingBar($rating->average);
                 ?>
                 &nbsp;&nbsp;<span style="font-weight: bold; color: #bbb;"><?= (int) $rating->average ?> / 10</span>
                 &nbsp;&nbsp;<span style="color: #888; font-size: 13px;"><em><?= $rating->count ?> rating<?php if ($rating->count != 1) print "s" ?></em></span>
