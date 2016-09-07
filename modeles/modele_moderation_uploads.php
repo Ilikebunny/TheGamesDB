@@ -10,22 +10,11 @@ function get_queueCount($imagekey) {
 }
 
 function get_frontQueueCount() {
-//    $frontQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'front'");
-//    $frontQueueCount = mysql_num_rows($frontQueueResult);
-//    if (empty($frontQueueCount)) {
-//        $frontQueueCount = 0;
-//    }
-//    return $frontQueueCount;
-
     $frontQueueCount = get_queueCount('front');
     return $frontQueueCount;
 }
 
 function get_backQueueCount() {
-    $backQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'back'");
-    $backQueueCount = mysql_num_rows($backQueueResult);
-    if (empty($backQueueCount)) {
-        $backQueueCount = 0;
-    }
+    $backQueueCount = get_queueCount('back');
     return $backQueueCount;
 }
