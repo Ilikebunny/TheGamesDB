@@ -1,12 +1,7 @@
 
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <div style="text-align: center; margin: 26px 0px;">
         <h1>Reset Password</h1>

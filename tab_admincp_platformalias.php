@@ -30,7 +30,8 @@
                 } else {
                     echo $platforms->alias;
                 }
-                ?></td>
+                ?>
+            </td>
         </tr>
         <?php
     }

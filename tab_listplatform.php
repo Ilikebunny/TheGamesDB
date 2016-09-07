@@ -166,12 +166,12 @@ if ($lastpage > 1) {
 
 <div id="gameHead">
 
-<?php if ($errormessage): ?>
+    <?php if ($errormessage): ?>
         <div class="error"><?= $errormessage ?></div>
-<?php endif; ?>
-<?php if ($message): ?>
+    <?php endif; ?>
+    <?php if ($message): ?>
         <div class="message"><?= $message ?></div>
-<?php endif; ?>
+    <?php endif; ?>
 
     <!-- Start View Mode Links -->
     <div style="float: right;">
@@ -212,16 +212,18 @@ if ($lastpage > 1) {
                     <select name="stringPlatform" id="platformMenu" onchange="if ($('#platformMenu').val() != 'select') {
                                 document.location.href = '<?= $baseurl ?>/browse/' + this.value + '/?searchview=<?= $searchview; ?>'; }" style="color: #333; width: 450px !important;">
                         <option value="select" title="<?php echo $baseurl; ?>/images/common/icons/question-block_48.png">Please Select Platform...</option>
-<?php
-$platformQuery = mysql_query(" SELECT * FROM platforms ORDER BY name ASC");
-while ($platformResult = mysql_fetch_assoc($platformQuery)) {
-    ?>
-                            <option value="<?php echo $platformResult['id']; ?>" title="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php echo $platformResult['icon']; ?>"<?php if ($stringPlatform == $platformResult['id']) {
-        echo " selected";
-    } ?>><?php echo $platformResult['name']; ?></option>
-    <?php
-}
-?>
+                        <?php
+                        $platformQuery = mysql_query(" SELECT * FROM platforms ORDER BY name ASC");
+                        while ($platformResult = mysql_fetch_assoc($platformQuery)) {
+                            ?>
+                            <option value="<?php echo $platformResult['id']; ?>" title="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php echo $platformResult['icon']; ?>"<?php
+                            if ($stringPlatform == $platformResult['id']) {
+                                echo " selected";
+                            }
+                            ?>><?php echo $platformResult['name']; ?></option>
+                                    <?php
+                                }
+                                ?>
                     </select>
                     <!-- <button type="submit" style="cursor: pointer; height: 46px; padding: 5px; margin-left: 10px; margin-top: 5px; float: left; background: url(<?php echo $baseurl; ?>/images/common/bg_button-black.png) center center repeat-x; border-radius: 10px;"><span class="arcade" style=" font-size: 30px; color: #00FF00;">Go</span></button> -->
                 </form>
@@ -233,39 +235,59 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
     <!-- End Browse By Platform -->
 
     <!-- Start Sort By -->
-    <form style="text-align: right; float: right;" action="<?= $baseurl ?>/browse/<?php if (isset($stringPlatform)) {
-                            echo "$stringPlatform/";
-                        } ?>">
+    <form style="text-align: right; float: right;" action="<?= $baseurl ?>/browse/<?php
+          if (isset($stringPlatform)) {
+              echo "$stringPlatform/";
+          }
+                                ?>">
         <p style="font-weight: bold;">Sort By: <select name="sortBy" onchange="this.form.submit();">
-                <option <?php if ($sortBy == "g.GameTitle") {
-                            echo "selected";
-                        } ?> value="g.GameTitle">Name</option>
-                <option <?php if ($sortBy == "p.name") {
-                            echo "selected";
-                        } ?> value="p.name">Platform</option>
-                <option <?php if ($sortBy == "g.Genre") {
-                            echo "selected";
-                        } ?> value="g.Genre">Genre</option>
-                <option <?php if ($sortBy == "g.Rating") {
-                            echo "selected";
-                        } ?> value="g.Rating">Rating</option>
+                <option <?php
+                    if ($sortBy == "g.GameTitle") {
+                        echo "selected";
+                    }
+                    ?> value="g.GameTitle">Name</option>
+                <option <?php
+                if ($sortBy == "p.name") {
+                    echo "selected";
+                }
+                ?> value="p.name">Platform</option>
+                <option <?php
+                if ($sortBy == "g.Genre") {
+                    echo "selected";
+                }
+                ?> value="g.Genre">Genre</option>
+                <option <?php
+                if ($sortBy == "g.Rating") {
+                    echo "selected";
+                }
+                ?> value="g.Rating">Rating</option>
             </select>
             &nbsp;&nbsp;&nbsp;&nbsp;Show: <select name="limit" onchange="this.form.submit();">
-                <option <?php if ($limit == 10) {
-                            echo "selected";
-                        } ?> value="10">10 Rows</option>
-                <option <?php if ($limit == 20) {
-                            echo "selected";
-                        } ?> value="20">20 Rows</option>
-                <option <?php if ($limit == 40) {
-                            echo "selected";
-                        } ?> value="40">40 Rows</option>
-                <option <?php if ($limit == 80) {
-                            echo "selected";
-                        } ?> value="80">80 Rows</option>
-                <option <?php if ($limit == 100) {
-                            echo "selected";
-                        } ?> value="100">100 Rows</option>
+                <option <?php
+                if ($limit == 10) {
+                    echo "selected";
+                }
+                ?> value="10">10 Rows</option>
+                <option <?php
+                if ($limit == 20) {
+                    echo "selected";
+                }
+                ?> value="20">20 Rows</option>
+                <option <?php
+    if ($limit == 40) {
+        echo "selected";
+    }
+    ?> value="40">40 Rows</option>
+                <option <?php
+    if ($limit == 80) {
+        echo "selected";
+    }
+    ?> value="80">80 Rows</option>
+                <option <?php
+    if ($limit == 100) {
+        echo "selected";
+    }
+    ?> value="100">100 Rows</option>
             </select></p>
         <input type="hidden" name="searchview" value="<?= $searchview; ?>" />
     </form>
@@ -274,31 +296,31 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
     <div style="clear: both;"></div>
 
 
-    <?php
-    ## Run the games query
+        <?php
+        ## Run the games query
 
-    if ($function == 'Browse By Platform') {
-        $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+        if ($function == 'Browse By Platform') {
+            $result = mysql_query($query) or die('Query failed: ' . mysql_error());
 
 
-        $increment = "odd";
-        $counter = 0;
-        ?>
+            $increment = "odd";
+            $counter = 0;
+            ?>
         <div class="bgBlack" style="text-align: center; width: 800px; padding: 15px; margin:30px auto; background-color: #eee; border: 1px solid #666; color: #333;">
 
             <!-- Start Show Pagination -->
-            <?= $pagination ?>
+                    <?= $pagination ?>
             <!-- End Show Pagination -->
 
-            <?
-            if ($total_pages > 0) {
-                if ($searchview != "table") {
-                    while ($game = mysql_fetch_object($result)) {
-                        if ($searchview == "listing") {
-                            if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
-                                $boxart = mysql_fetch_object($boxartResult);
-                            }
-                            ?>
+    <?
+    if ($total_pages > 0) {
+        if ($searchview != "table") {
+            while ($game = mysql_fetch_object($result)) {
+                if ($searchview == "listing") {
+                    if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
+                        $boxart = mysql_fetch_object($boxartResult);
+                    }
+                    ?>
                             <div class="backgroundGradientGrey boxShadow" style="padding: 10px; margin: 10px; border: 1px solid #333; background-color: #fff; text-align: left !important; border-radius: 6px;">
                                 <div style="height: 102px; width: 102px; text-align: center; padding-right: 10px; float:left">
                                     <?php
@@ -309,9 +331,9 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                                     } else {
                                         ?>
                                         <img src="<?= $baseurl ?>/images/common/placeholders/boxart_blank.png" alt="<?= $game->GameTitle ?> Boxart"  style="width:70px; height: 100px; border: 1px solid #666;"/>
-                                        <?php
-                                    }
-                                    ?>
+                                    <?php
+                                }
+                                ?>
                                 </div>
                                 <span style=" float: right; background-color: #333; padding: 7px 6px; border-radius: 6px; border: 1px solid #222; color: #eeeeee; font-weight: bold; margin-left: 10px; box-shadow: 0px 0px 6px #000;">
                                     <?php
@@ -334,29 +356,33 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                                         $releaseDate = null;
                                         ?>
                                     <span style=" float: right; background-color: #333; padding: 6px; border-radius: 6px; border: 1px solid #222; color: #eeeeee; font-weight: bold; margin-left: 10px; box-shadow: 0px 0px 6px #000;">
-                                    <?php
-                                    if (strlen($game->ReleaseDate) == 4) {
-                                        echo $game->ReleaseDate;
-                                    } else {
-                                        $releaseDate = explode('/', $game->ReleaseDate);
-                                        echo $releaseDate[2];
-                                    }
-                                    ?>
+                                                                                                                                                                                                                          <?php
+                                                                                                                                                                                                                          if (strlen($game->ReleaseDate) == 4) {
+                                                                                                                                                                                                                              echo $game->ReleaseDate;
+                                                                                                                                                                                                                          } else {
+                                                                                                                                                                                                                              $releaseDate = explode('/', $game->ReleaseDate);
+                                                                                                                                                                                                                              echo $releaseDate[2];
+                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                          ?>
                                     </span>
-                                        <?php
-                                    }
-                                    ?>
+                                                                                                                                                                                                                          <?php
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                      ?>
                                 <h3 style="margin-top: 0px;"><a href="<?= $baseurl ?>/game/<?= $game->id ?>/" style="color: #000;"><?= $game->GameTitle ?></a></h3>
-                                <p style="text-align: justify;"><?php if (!empty($game->Overview)) {
-                        echo substr($game->Overview, 0, 300) . "...";
-                    } else {
-                        echo "<em><br />There is no overview available for this game.</em><br /><br />";
-                    } ?></p>
-                                <p style="font-size: 16px; color: #333;"><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php if (!empty($game->PlatformAlias)) {
-                        echo $game->PlatformAlias;
-                    } else {
-                        echo $game->Platform;
-                    } ?>/"><?= $game->name ?></a>&nbsp;|&nbsp;
+                                <p style="text-align: justify;"><?php
+                                    if (!empty($game->Overview)) {
+                                        echo substr($game->Overview, 0, 300) . "...";
+                                    } else {
+                                        echo "<em><br />There is no overview available for this game.</em><br /><br />";
+                                    }
+                                    ?></p>
+                                <p style="font-size: 16px; color: #333;"><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php
+                            if (!empty($game->PlatformAlias)) {
+                                echo $game->PlatformAlias;
+                            } else {
+                                echo $game->Platform;
+                            }
+                            ?>/"><?= $game->name ?></a>&nbsp;|&nbsp;
                                     <?php
                                     $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND banners.filename LIKE '%front%' LIMIT 1");
                                     $boxartResult = mysql_num_rows($boxartQuery);
@@ -368,55 +394,61 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                                     $bannerResult = mysql_num_rows($bannerQuery);
 
                                     if ($boxartResult != 0) {
-                                        ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php }
-                    if ($fanartResult != 0) {
-                                        ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php }
-                    if ($bannerResult != 0) {
-                        ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?></p>
+                                        ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
+                                    }
+                                    if ($fanartResult != 0) {
+                                        ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
+                                    }
+                                    if ($bannerResult != 0) {
+                                        ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?></p>
                                 <div style="clear: both;"></div>
                             </div>
-                            <?php
-                        } elseif ($searchview == "tile") {
-                            if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
-                                $boxart = mysql_fetch_object($boxartResult);
-                            }
-                            ?>
+                                    <?php
+                                } elseif ($searchview == "tile") {
+                                    if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$game->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
+                                        $boxart = mysql_fetch_object($boxartResult);
+                                    }
+                                    ?>
                             <div class="backgroundGradientGrey boxShadow" style="width: 356px; min-height: 102px; float: left; padding: 10px; margin: 10px; border-radius: 16px; border: 2px solid #333; background-color: #fff;">
                                 <div style="height: 102px; float:left">
                                     <?php
                                     if ($boxart->filename != "") {
                                         ?>
                                         <img <?= imageResize("$baseurl/banners/$boxart->filename", "banners/_favcache/_tile-view/$boxart->filename", 100) ?> alt="<?= $game->GameTitle ?> Boxart" style="border: 1px solid #666;"/>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <img src="<?= $baseurl ?>/images/common/placeholders/boxart_blank.png" alt="<?= $game->GameTitle ?> Boxart"  style="width:70px; height: 100px; border: 1px solid #666;"/>
-                                        <?php
-                                    }
+                                    <?php
+                                } else {
                                     ?>
+                                        <img src="<?= $baseurl ?>/images/common/placeholders/boxart_blank.png" alt="<?= $game->GameTitle ?> Boxart"  style="width:70px; height: 100px; border: 1px solid #666;"/>
+                                <?php
+                            }
+                            ?>
                                 </div>
                                 <h3 style="margin-top: 0px;"><a href="<?= $baseurl ?>/game/<?= $game->id ?>/" style="color: #000;"><?= $game->GameTitle ?></a></h3>
-                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php if (!empty($game->PlatformAlias)) {
-                        echo $game->PlatformAlias;
-                    } else {
-                        echo $game->Platform;
-                    } ?>/"><?= $game->name ?></a></p>
-                                <?php
-                                $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND banners.filename LIKE '%front%' LIMIT 1");
-                                $boxartResult = mysql_num_rows($boxartQuery);
+                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php
+                            if (!empty($game->PlatformAlias)) {
+                                echo $game->PlatformAlias;
+                            } else {
+                                echo $game->Platform;
+                            }
+                            ?>/"><?= $game->name ?></a></p>
+                                    <?php
+                                    $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND banners.filename LIKE '%front%' LIMIT 1");
+                                    $boxartResult = mysql_num_rows($boxartQuery);
 
-                                $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'fanart' LIMIT 1");
-                                $fanartResult = mysql_num_rows($fanartQuery);
+                                    $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'fanart' LIMIT 1");
+                                    $fanartResult = mysql_num_rows($fanartQuery);
 
-                                $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'series' LIMIT 1");
-                                $bannerResult = mysql_num_rows($bannerQuery);
+                                    $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'series' LIMIT 1");
+                                    $bannerResult = mysql_num_rows($bannerQuery);
 
-                                if ($boxartResult != 0) {
-                                    ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php }
+                                    if ($boxartResult != 0) {
+                                        ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
+                    }
                     if ($fanartResult != 0) {
-                                    ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php }
-                    if ($bannerResult != 0) {
-                        ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /><?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /><?php } ?>
+                        ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
+                                    }
+                                    if ($bannerResult != 0) {
+                                        ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /><?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /><?php } ?>
                                 <div style="clear: both;"></div>
                             </div>
                             <?php
@@ -432,9 +464,9 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                             ?>
                             <div class="backgroundGradientGrey boxShadow" style="width: 222px; min-height: 280px; float: left; padding: 10px; margin: 10px; border-radius: 16px; border: 2px solid #333; background-color: #fff;">
                                 <div style="height: 200px;">
-                                    <?php
-                                    if ($boxart->filename != "") {
-                                        ?>
+                            <?php
+                            if ($boxart->filename != "") {
+                                ?>
                                         <img <?= imageResize("$baseurl/banners/$boxart->filename", "banners/_favcache/_boxart-view/$boxart->filename", 200) ?> alt="<?= $game->GameTitle ?> Boxart" style="border: 1px solid #666;"/>
                                         <?php
                                     } else {
@@ -445,17 +477,19 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                                     ?>
                                 </div>
                                 <h3><a href="<?= $baseurl ?>/game/<?= $game->id ?>/" style="color: #000;"><?= $game->GameTitle ?></a></h3>
-                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php if (!empty($game->PlatformAlias)) {
-                        echo $game->PlatformAlias;
-                    } else {
-                        echo $game->Platform;
-                    } ?>/"><?= $game->name ?></a></p>
+                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php
+                                    if (!empty($game->PlatformAlias)) {
+                                        echo $game->PlatformAlias;
+                                    } else {
+                                        echo $game->Platform;
+                                    }
+                                    ?>/"><?= $game->name ?></a></p>
                                 <div style="clear: both;"></div>
                             </div>
-                            <?php
-                            if ($counter == 2) {
-                                $counter = 0;
-                                ?>
+                    <?php
+                    if ($counter == 2) {
+                        $counter = 0;
+                        ?>
                                 <div style="clear: both;"></div>
                                 <?
                             } else {
@@ -472,41 +506,43 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                             if ($banner->filename != "") {
                                 ?>
                                         <img <?= imageResize("$baseurl/banners/$banner->filename", "banners/_favcache/_banner-view/$banner->filename", 200) ?> alt="<?= $game->GameTitle ?> Boxart" style="border: 1px solid #666;"/>
-                        <?php
-                    } else {
-                        ?>
+                                <?php
+                            } else {
+                                ?>
                                         <img src="<?= $baseurl ?>/images/common/placeholders/banner_blank.png" alt="<?= $game->GameTitle ?> Boxart"  style="width:200px; height: 47px; border: 1px solid #666;"/>
-                                        <?php
-                                    }
-                                    ?>
+                        <?php
+                    }
+                    ?>
                                 </div>
                                 <h3><a href="<?= $baseurl ?>/game/<?= $game->id ?>/" style="color: #000;"><?= $game->GameTitle ?></a></h3>
-                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php if (!empty($game->PlatformAlias)) {
+                                <p><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $game->icon ?>" alt="<?= $game->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php
+                    if (!empty($game->PlatformAlias)) {
                         echo $game->PlatformAlias;
                     } else {
                         echo $game->Platform;
-                    } ?>/"><?= $game->name ?></a></p>
+                    }
+                    ?>/"><?= $game->name ?></a></p>
                                 <div style="clear: both;"></div>
                             </div>
-                    <?php
-                    if ($counter == 2) {
-                        $counter = 0;
-                        ?>
+                                <?php
+                                if ($counter == 2) {
+                                    $counter = 0;
+                                    ?>
                                 <div style="clear: both;"></div>
-                                <?
+                                    <?
+                                } else {
+                                    $counter++;
+                                }
+                            }
+
+                            if ($increment == "odd") {
+                                $increment = "even";
                             } else {
-                                $counter++;
+                                $increment = "odd";
                             }
                         }
-
-                        if ($increment == "odd") {
-                            $increment = "even";
-                        } else {
-                            $increment = "odd";
-                        }
-                    }
-                } elseif ($searchview == "table") {
-                    ?>
+                    } elseif ($searchview == "table") {
+                        ?>
                     <table width="100%" border="0" cellspacing="1" cellpadding="7" id="listtable" class="boxShadow">
                         <tr>
                             <td class="head" align="center">ID</td>
@@ -519,33 +555,35 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                             <td class="head">Fanart</td>
                             <td class="head">Banner</td>
                         </tr>
-                    <?php
-                    while ($game = mysql_fetch_object($result)) {
-                        if ($gameResult = mysql_query(" SELECT g.id, g.GameTitle, g.ReleaseDate, g.Genre, g.Rating, p.name, p.alias AS PlatformAlias, p.icon FROM games as g, platforms as p WHERE g.id = '$game->id' AND g.Platform = p.id")) {
-                            if ($game = mysql_fetch_object($gameResult)) {
-                                $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND banners.filename LIKE '%front%' LIMIT 1");
-                                $boxartResult = mysql_num_rows($boxartQuery);
+            <?php
+            while ($game = mysql_fetch_object($result)) {
+                if ($gameResult = mysql_query(" SELECT g.id, g.GameTitle, g.ReleaseDate, g.Genre, g.Rating, p.name, p.alias AS PlatformAlias, p.icon FROM games as g, platforms as p WHERE g.id = '$game->id' AND g.Platform = p.id")) {
+                    if ($game = mysql_fetch_object($gameResult)) {
+                        $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND banners.filename LIKE '%front%' LIMIT 1");
+                        $boxartResult = mysql_num_rows($boxartQuery);
 
-                                $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'fanart' LIMIT 1");
-                                $fanartResult = mysql_num_rows($fanartQuery);
+                        $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'fanart' LIMIT 1");
+                        $fanartResult = mysql_num_rows($fanartQuery);
 
-                                $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'series' LIMIT 1");
-                                $bannerResult = mysql_num_rows($bannerQuery);
+                        $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$game->id' AND keytype = 'series' LIMIT 1");
+                        $bannerResult = mysql_num_rows($bannerQuery);
 
-                                if ($class == 'odd') {
-                                    $class = 'even';
-                                } else {
-                                    $class = 'odd';
-                                }
-                                ?>
+                        if ($class == 'odd') {
+                            $class = 'even';
+                        } else {
+                            $class = 'odd';
+                        }
+                        ?>
                                     <tr>
                                         <td align="center" class="<?php echo $class; ?>"><?php echo $game->id; ?></td>
                                         <td class="<?php echo $class; ?>"><a href="<?php echo $baseurl; ?>/game/<?= $game->id ?>/"><?php echo $game->GameTitle; ?></a></td>
-                                        <td class="<?php echo $class; ?>"><img src="<?= $baseurl ?>/images/common/consoles/png16/<?php echo $game->icon; ?>" alt="<?php echo $game->name; ?>" style="vertical-align: middle;" /> <a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php if (!empty($game->PlatformAlias)) {
+                                        <td class="<?php echo $class; ?>"><img src="<?= $baseurl ?>/images/common/consoles/png16/<?php echo $game->icon; ?>" alt="<?php echo $game->name; ?>" style="vertical-align: middle;" /> <a style="color: #000;" href="<?= $baseurl; ?>/platform/<?php
+                        if (!empty($game->PlatformAlias)) {
                             echo $game->PlatformAlias;
                         } else {
                             echo $game->Platform;
-                        } ?>/"><?= $game->name ?></a></td>
+                        }
+                        ?>/"><?= $game->name ?></a></td>
                                         <td class="<?php echo $class; ?>">
                                     <?php
                                     if (strlen($game->ReleaseDate) == 4) {
@@ -557,46 +595,46 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
                                     ?>
                                         </td>
                                         <td class="<?php echo $class; ?>">
-                                            <?php
-                                            if (!empty($game->Genre)) {
-                                                $mainGenre = explode("|", $game->Genre);
-                                                if (!empty($stringGenres)) {
-                                                    for ($i = 0; $i <= count($mainGenre); $i++) {
-                                                        if ($mainGenre[$i] == $stringGenres) {
-                                                            if (strlen($mainGenre[$i]) > 15) {
-                                                                $mainGenre[$i] = substr($mainGenre[$i], 0, 15) . "...";
-                                                            }
-                                                            echo $mainGenre[$i];
-                                                        }
-                                                    }
-                                                } else {
-                                                    if (strlen($mainGenre[1]) > 15) {
-                                                        $mainGenre[1] = substr($mainGenre[1], 0, 15) . "...";
-                                                    }
-                                                    echo $mainGenre[1];
+                                <?php
+                                if (!empty($game->Genre)) {
+                                    $mainGenre = explode("|", $game->Genre);
+                                    if (!empty($stringGenres)) {
+                                        for ($i = 0; $i <= count($mainGenre); $i++) {
+                                            if ($mainGenre[$i] == $stringGenres) {
+                                                if (strlen($mainGenre[$i]) > 15) {
+                                                    $mainGenre[$i] = substr($mainGenre[$i], 0, 15) . "...";
                                                 }
+                                                echo $mainGenre[$i];
                                             }
-                                            ?>
+                                        }
+                                    } else {
+                                        if (strlen($mainGenre[1]) > 15) {
+                                            $mainGenre[1] = substr($mainGenre[1], 0, 15) . "...";
+                                        }
+                                        echo $mainGenre[1];
+                                    }
+                                }
+                                ?>
                                         </td>
                                         <td class="<?php echo $class; ?>"><?php echo $game->Rating; ?></td>
                                         <td align="center" class="<?php echo $class; ?>"><?php if ($boxartResult != 0) { ?><img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /><?php } else { ?><img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="Yes" /><?php } ?></td>
                                         <td align="center" class="<?php echo $class; ?>"><?php if ($fanartResult != 0) { ?><img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /><?php } else { ?><img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="Yes" /><?php } ?></td>
                                         <td align="center" class="<?php echo $class; ?>"><?php if ($bannerResult != 0) { ?><img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /><?php } else { ?><img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="Yes" /><?php } ?></td>
                                     </tr>
-                                            <?php
-                                        }
-                                    }
-                                }
-                                ?>
+                        <?php
+                    }
+                }
+            }
+            ?>
                     </table>
-                                <?php
-                            }
-                        } elseif (empty($stringPlatform)) {
-                            ?>
+            <?php
+        }
+    } elseif (empty($stringPlatform)) {
+        ?>
                 <h2 style="color:#fff;">Please select a platform to view...</h2>
-                            <?php
-                        } else {
-                            ?>
+        <?php
+    } else {
+        ?>
                 <h2 style="color:#fff;">This platform does not have any games yet...<br />Why not <a style="color: #ee4400" href="<?= $baseurl; ?>/addgame/?passPlatform=<?= $stringPlatform; ?>">add one</a></h2>
         <?php
     }
@@ -604,15 +642,15 @@ while ($platformResult = mysql_fetch_assoc($platformQuery)) {
             <div style="clear: both;"></div>
 
             <!-- Start Show Pagination -->
-                <?= $pagination ?>
+    <?= $pagination ?>
             <!-- End Show Pagination -->
 
         </div>
 
 
-            <?php
-        }
-        ?>
+    <?php
+}
+?>
     <script language="javascript">
         $(document).ready(function (e) {
             try {

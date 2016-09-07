@@ -1,11 +1,6 @@
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <?php
     if ($loggedin == 1) {
@@ -36,10 +31,10 @@
                         <td><?= date("l, jS F Y - g:i A (T)", strtotime($messages->timestamp)); ?></td>
                         <td align="center" style="text-transform:capitalize;"><?= $messages->status; ?></td>
                     </tr>
-            <?php
-        }
-    } else {
-        ?>
+                    <?php
+                }
+            } else {
+                ?>
                 <tr style="background-color: #bbb; color: #222; font-weight: bold;">
                     <td colspan="4" align="center" style="padding: 10px;">You do not currently have any messages...</td>
                 </tr>
@@ -47,13 +42,13 @@
             }
             ?>
         </table>
-            <?php
-        } else {
-            ?>
+        <?php
+    } else {
+        ?>
         <h1>Oops!</h1>
         <h2 style="text-align: center;">You must be logged in to access your messages!</h2>
         <p style="text-align: center;"><a href="<?= $baseurl; ?>/login/" style="color: orange;">Click here to log in</a></p>
-            <?php
-        }
-        ?>
+        <?php
+    }
+    ?>
 </div>

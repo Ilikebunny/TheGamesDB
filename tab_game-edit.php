@@ -141,12 +141,7 @@
 
     <div id="gameHead">
 
-        <?php if ($errormessage): ?>
-            <div class="error"><?= $errormessage ?></div>
-        <?php endif; ?>
-        <?php if ($message): ?>
-            <div class="message"><?= $message ?></div>
-        <?php endif; ?>
+        <?php include('snippets/errorsAndMessages.php'); ?>
 
         <?php
         if (mysql_num_rows($result) != 0) {

@@ -141,27 +141,23 @@
 
     <div id="gameHead">
 
+        <?php include('snippets/errorsAndMessages.php'); ?>
 
-    <?php if ($errormessage): ?>
-            <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-            <div class="message"><?= $message ?></div>
-    <?php endif; ?>
-
-    <?php
-    if (mysql_num_rows($result) != 0) {
-        ?>
+        <?php
+        if (mysql_num_rows($result) != 0) {
+            ?>
 
             <form id="editPlatformForm" name="editPlatformForm" action="<?= $baseurl ?>/platform-edit/<?= $platform->id ?>/" method="post" onsubmit="">
 
                 <div id="gameTitle">
                     <span style="float: left;">
-                        <img src="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php if (!empty($platform->icon)) {
-            echo $platform->icon;
-        } else {
-            echo "console_default.png";
-        } ?>" alt="<?php echo $platform->name; ?>" title="<?php echo $platform->name; ?>" style="vertical-align: middle;" />&nbsp;
+                        <img src="<?php echo $baseurl; ?>/images/common/consoles/png48/<?php
+                        if (!empty($platform->icon)) {
+                            echo $platform->icon;
+                        } else {
+                            echo "console_default.png";
+                        }
+                        ?>" alt="<?php echo $platform->name; ?>" title="<?php echo $platform->name; ?>" style="vertical-align: middle;" />&nbsp;
                         Title:<input type="text" name="name" style="font-size: 18px; font-weight: bold; width: 240px;" value="<?php echo $platform->name; ?>" /><br />
                     </span>
 
@@ -188,31 +184,33 @@
 
                         <div id="frontBoxart">
                             <div class="slider-wrapper theme-default">
-        <?php
-        if ($frontCoverResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-boxart' ")) {
-            if (mysql_num_rows($frontCoverResult) > 0) {
-                ?>
+                                <?php
+                                if ($frontCoverResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-boxart' ")) {
+                                    if (mysql_num_rows($frontCoverResult) > 0) {
+                                        ?>
                                         <div id="frontBoxartSlider" class="nivoSlider">
-                <?php
-                $frontBoxartSlideCount = 0;
-                while ($front = mysql_fetch_object($frontCoverResult)) {
-                    ?>
-                                                <img <?= imageResize("$baseurl/banners/$front->filename", "banners/_platformviewcache/$front->filename", 300, "width") ?> title="<?= imageUsername($front->id) ?><br /><a href='<?= "$baseurl/banners/$front->filename" ?>' target='_blank'>View Full-Size</a> | <?php if ($adminuserlevel == 'ADMINISTRATOR') {
-                        echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$front->id'>Delete This Art</a>";
-                    } ?><br /><?= imageRating($front->id) ?><br /><?= userImageRating($front->id, $baseurl, $game->id, $user->id) ?>" />
-                    <?php
-                    $frontBoxartSlideCount++;
-                }
-                ?>
+                                            <?php
+                                            $frontBoxartSlideCount = 0;
+                                            while ($front = mysql_fetch_object($frontCoverResult)) {
+                                                ?>
+                                                <img <?= imageResize("$baseurl/banners/$front->filename", "banners/_platformviewcache/$front->filename", 300, "width") ?> title="<?= imageUsername($front->id) ?><br /><a href='<?= "$baseurl/banners/$front->filename" ?>' target='_blank'>View Full-Size</a> | <?php
+                                                                                                                                                                          if ($adminuserlevel == 'ADMINISTRATOR') {
+                                                                                                                                                                              echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$front->id'>Delete This Art</a>";
+                                                                                                                                                                          }
+                                                                                                                                                                          ?><br /><?= imageRating($front->id) ?><br /><?= userImageRating($front->id, $baseurl, $game->id, $user->id) ?>" />
+                                            <?php
+                                            $frontBoxartSlideCount++;
+                                        }
+                                        ?>
                                         </div>
                                         <?php
                                     } else {
                                         ?>
                                         <img class="imgShadow" src="<?php echo $baseurl; ?>/images/common/placeholders/boxart_blank.png" width="300" height="417" alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
-                                        <?php
-                                    }
-                                }
-                                ?>	
+                <?php
+            }
+        }
+        ?>	
                             </div>
                             <div style="clear: both;"></div>
                         </div>
@@ -222,78 +220,78 @@
                 <div id="gameInfo">
 
                     <div id="gameRating">
-                                    <?php
-                                    $query = "SELECT AVG(rating) AS average, count(*) AS count FROM ratings WHERE itemtype='platform' AND itemid=$id";
-                                    $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-                                    $rating = mysql_fetch_object($result);
+                        <?php
+                        $query = "SELECT AVG(rating) AS average, count(*) AS count FROM ratings WHERE itemtype='platform' AND itemid=$id";
+                        $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+                        $rating = mysql_fetch_object($result);
 
-                                    for ($i = 2; $i <= 10; $i = $i + 2) {
-                                        if ($i <= $rating->average) {
-                                            print "<img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0>";
-                                        } else if ($rating->average > $i - 2 && $rating->average < $i) {
-                                            print "<img src=\"$baseurl/images/game/star_half.png\" width=15 height=15 border=0>";
-                                        } else {
-                                            print "<img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0>";
-                                        }
-                                    }
-                                    ?>
+                        for ($i = 2; $i <= 10; $i = $i + 2) {
+                            if ($i <= $rating->average) {
+                                print "<img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0>";
+                            } else if ($rating->average > $i - 2 && $rating->average < $i) {
+                                print "<img src=\"$baseurl/images/game/star_half.png\" width=15 height=15 border=0>";
+                            } else {
+                                print "<img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0>";
+                            }
+                        }
+                        ?>
                         &nbsp;&nbsp;<span style="font-weight: bold; color: #bbb;"><?= (int) $rating->average ?> / 10</span>
                         &nbsp;&nbsp;<span style="color: #888; font-size: 13px;"><em><?= $rating->count ?> rating<?php if ($rating->count != 1) print "s" ?></em></span>
-        <?php if ($loggedin == 1) { ?>
+                        <?php if ($loggedin == 1) { ?>
                             &nbsp;&nbsp;|&nbsp;&nbsp;Your Rating:&nbsp;
-            <?php
-            $query = "SELECT rating FROM ratings WHERE itemtype='platform' AND itemid=$id AND userid=$user->id";
-            $result = mysql_query($query) or die('Query failed: ' . mysql_error());
-            $rating = mysql_fetch_object($result);
-            if ($rating)
-                $rating = $rating->rating;
-            else
-                $rating = 0;
+                            <?php
+                            $query = "SELECT rating FROM ratings WHERE itemtype='platform' AND itemid=$id AND userid=$user->id";
+                            $result = mysql_query($query) or die('Query failed: ' . mysql_error());
+                            $rating = mysql_fetch_object($result);
+                            if ($rating)
+                                $rating = $rating->rating;
+                            else
+                                $rating = 0;
 
-            for ($i = 1; $i <= 10; $i++) {
-                if ($i <= $rating) {
-                    print "<a href=\"$baseurl/platform-edit/$id/?function=UserRating&type=platform&itemid=$id&rating=$i\" OnMouseOver=\"UserRating2('userrating',$i)\" OnMouseOut=\"UserRating2('userrating',$rating)\"><img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0 name=\"userrating$i\"></a>";
-                } else {
-                    print "<a href=\"$baseurl/platform-edit/$id/?function=UserRating&type=platform&itemid=$id&rating=$i\" OnMouseOver=\"UserRating2('userrating',$i)\" OnMouseOut=\"UserRating2('userrating',$rating)\"><img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0 name=\"userrating$i\"></a>";
-                }
-            }
-            ?>
-                        <?php } ?>
+                            for ($i = 1; $i <= 10; $i++) {
+                                if ($i <= $rating) {
+                                    print "<a href=\"$baseurl/platform-edit/$id/?function=UserRating&type=platform&itemid=$id&rating=$i\" OnMouseOver=\"UserRating2('userrating',$i)\" OnMouseOut=\"UserRating2('userrating',$rating)\"><img src=\"$baseurl/images/game/star_on.png\" width=15 height=15 border=0 name=\"userrating$i\"></a>";
+                                } else {
+                                    print "<a href=\"$baseurl/platform-edit/$id/?function=UserRating&type=platform&itemid=$id&rating=$i\" OnMouseOver=\"UserRating2('userrating',$i)\" OnMouseOut=\"UserRating2('userrating',$rating)\"><img src=\"$baseurl/images/game/star_off.png\" width=15 height=15 border=0 name=\"userrating$i\"></a>";
+                                }
+                            }
+                            ?>
+        <?php } ?>
                     </div>
                     <hr />
                     <p><span class="grey">Overview</span></p>
                     <p><textarea name="overview" style="width: 630px; height: 200px;"><?= $platform->overview ?></textarea></p>
                     <hr />
-                        <?php
-                        if (!empty($platform->console)) {
-                            ?>
+        <?php
+        if (!empty($platform->console)) {
+            ?>
                         <div id="consoleArt" style="float: left; width: 300px; padding: 6px; margin: 0px 3px;">
                             <h3 class="grey">Console Art</h3>
                             <img src="<?= $baseurl ?>/banners/platform/consoleart/<?= $platform->console ?>" alt="<?= $platform->name ?> Console Art" title="<?= $platform->name ?> Console Art" style="margin-top: 12px;"/>
                             <p style="text-align: center;"><span style="text-decoration: none; color: red;">[x]&nbsp;</span><a href="<?= $baseurl ?>/platform-edit/<?= $platform->id ?>/?function=Delete+Console+Art" style="color: orange; text-decoration: underline;">Delete Console Art</a></p>
                         </div>
-                            <?php
-                        }
-                        ?>
                         <?php
-                        if (!empty($platform->controller)) {
-                            ?>
+                    }
+                    ?>
+        <?php
+        if (!empty($platform->controller)) {
+            ?>
                         <div id="controllerArt" style="float: left; width: 300px; padding: 6px; margin: 0px 3px;">
                             <h3 class="grey">Controller Art</h3>
                             <img src="<?= $baseurl ?>/banners/platform/controllerart/<?= $platform->controller ?>" alt="<?= $platform->name ?> Controller Art" title="<?= $platform->name ?> Controller Art" style="margin-top: 12px;"/>
                             <p style="text-align: center;"><span style="text-decoration: none; color: red;">[x]&nbsp;</span><a href="<?= $baseurl ?>/platform-edit/<?= $platform->id ?>/?function=Delete+Controller+Art" style="color: orange; text-decoration: underline;">Delete Controller Art</a></p>
                         </div>
-            <?php
-        }
-        ?>
-        <?php
-        if (!empty($platform->console) || !empty($platform->controller)) {
-            ?>
-                        <div style="clear: both;"></div>
-                        <hr />
                         <?php
                     }
                     ?>
+                    <?php
+                    if (!empty($platform->console) || !empty($platform->controller)) {
+                        ?>
+                        <div style="clear: both;"></div>
+                        <hr />
+            <?php
+        }
+        ?>
                     <div id="gameVitals">
                         <table>
                             <tr>
@@ -412,27 +410,29 @@
 
                         <div class="slider-wrapper theme-default">
                             <div id="fanartRibbon" style="position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-fanart.png) no-repeat; z-index: 10"></div>
-        <?php
-        if ($fanartResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-fanart' ")) {
-            $fanSlideCount = 0;
-            if (mysql_num_rows($fanartResult) > 0) {
-                ?>
+                            <?php
+                            if ($fanartResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-fanart' ")) {
+                                $fanSlideCount = 0;
+                                if (mysql_num_rows($fanartResult) > 0) {
+                                    ?>
                                     <div id="fanartSlider" class="nivoSlider">
-                <?php
-                while ($fanart = mysql_fetch_object($fanartResult)) {
-                    // $dims = getimagesize("$baseurl/banners/$fanart->filename"); echo "$dims[0] x $dims[1]"; 
-                    ?>
-                                            <img  class="fanartSlide imgShadow" <?= imageResize("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $game->GameTitle; ?> Fanart" title="<?= imageUsername($fanart->id) ?><br /><a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a> | <?php if ($adminuserlevel == 'ADMINISTRATOR') {
-                        echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$fanart->id'>Delete This Art</a>";
-                    } ?><br /><?= imageRating($fanart->id) ?> | <?= userImageRating($fanart->id, $baseurl, $game->id, $user->id) ?>" />
-                    <?php
-                    $fanSlideCount++;
-                }
-                ?>
+                                        <?php
+                                        while ($fanart = mysql_fetch_object($fanartResult)) {
+                                            // $dims = getimagesize("$baseurl/banners/$fanart->filename"); echo "$dims[0] x $dims[1]"; 
+                                            ?>
+                                            <img  class="fanartSlide imgShadow" <?= imageResize("$baseurl/banners/$fanart->filename", "banners/_platformviewcache/$fanart->filename", 470, "width") ?> alt="<?php echo $game->GameTitle; ?> Fanart" title="<?= imageUsername($fanart->id) ?><br /><a href='<?= "$baseurl/banners/$fanart->filename" ?>' target='_blank'>View Full-Size</a> | <?php
+                                                  if ($adminuserlevel == 'ADMINISTRATOR') {
+                                                      echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$fanart->id'>Delete This Art</a>";
+                                                  }
+                                                  ?><br /><?= imageRating($fanart->id) ?> | <?= userImageRating($fanart->id, $baseurl, $game->id, $user->id) ?>" />
+                                        <?php
+                                        $fanSlideCount++;
+                                    }
+                                    ?>
                                     </div>
-                <?php
-            } else {
-                ?>
+                                    <?php
+                                } else {
+                                    ?>
                                     <img class="imgShadow" src="<?php echo $baseurl; ?>/images/common/placeholders/fanart_blank.png" width="470" height="264" alt="<?php echo $game->GameTitle; ?>" title="<?php echo $game->GameTitle; ?>" />
                 <?php
             }
@@ -453,22 +453,24 @@
                 <div id="banners">
                     <div class="slider-wrapper theme-default">
                         <div id="bannerRibbon" style="display: none; position: absolute; width: 125px; height: 125px; background: url(<?= $baseurl ?>/images/game-view/ribbon-banners.png) no-repeat; z-index: 10"></div>
-                                <?php
-                                if ($bannerResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-banner' ") or die("banner query failed" . mysql_error())) {
-                                    if (mysql_num_rows($bannerResult) > 0) {
-                                        ?>
-                                <div id="bannerSlider" class="nivoSlider" style="width:760px important; height: 140px !important;">
-                                    <?php
-                                    $bannerSlideCount = 0;
-                                    while ($banner = mysql_fetch_object($bannerResult)) {
-                                        ?>
-                                        <img class="bannerSlide" src="<?= "$baseurl/banners/$banner->filename" ?>" alt="<?php echo $game->GameTitle; ?> Banner" title="<?= imageUsername($banner->id) ?> | <a href='<?= "$baseurl/banners/$banner->filename" ?>' target='_blank'>View Full-Size</a> | <?php if ($adminuserlevel == 'ADMINISTRATOR') {
-                        echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$banner->id'>Delete This Art</a>";
-                    } ?><br /><?= imageRating($banner->id) ?> | <?= userImageRating($banner->id, $baseurl, $game->id, $user->id) ?>" />
-                                        <?php
-                                        $bannerSlideCount++;
-                                    }
+                            <?php
+                            if ($bannerResult = mysql_query(" SELECT b.id, b.filename FROM banners as b WHERE b.keyvalue = '$platform->id' AND b.keytype = 'platform-banner' ") or die("banner query failed" . mysql_error())) {
+                                if (mysql_num_rows($bannerResult) > 0) {
                                     ?>
+                                <div id="bannerSlider" class="nivoSlider" style="width:760px important; height: 140px !important;">
+                                         <?php
+                                         $bannerSlideCount = 0;
+                                         while ($banner = mysql_fetch_object($bannerResult)) {
+                                             ?>
+                                        <img class="bannerSlide" src="<?= "$baseurl/banners/$banner->filename" ?>" alt="<?php echo $game->GameTitle; ?> Banner" title="<?= imageUsername($banner->id) ?> | <a href='<?= "$baseurl/banners/$banner->filename" ?>' target='_blank'>View Full-Size</a> | <?php
+                         if ($adminuserlevel == 'ADMINISTRATOR') {
+                             echo "<a href='$baseurl/platform-edit/$platform->id/?function=Delete+Banner&bannerid=$banner->id'>Delete This Art</a>";
+                         }
+                                             ?><br /><?= imageRating($banner->id) ?> | <?= userImageRating($banner->id, $baseurl, $game->id, $user->id) ?>" />
+                                    <?php
+                                    $bannerSlideCount++;
+                                }
+                                ?>
                                 </div>
                 <?php
             } else {
@@ -523,7 +525,7 @@
 
         <!-- Start of Upload Dialogs -->
         <div style="display: none;">
-        <?php if ($loggedin == 1) { ?>
+                <?php if ($loggedin == 1) { ?>
                 <div id="platformIconUpload" class="miniPanel">
                     <h2><img src="<?= $baseurl ?>/images/common/icons/upload-black_32.png" alt="Upload" style="vertical-align: -7px;" /> Platform Icon Upload</h2>
             <?php
@@ -556,19 +558,19 @@
                                 </tr>
                             </table>
                         </form>
-                <?php } ?>
+                    <?php } ?>
                 </div>
                 <?php } ?>
 
                 <?php if ($loggedin == 1) { ?>
                 <div id="frontBoxartUpload" class="miniPanel">
                     <h2><img src="<?= $baseurl ?>/images/common/icons/upload-black_32.png" alt="Upload" style="vertical-align: -7px;" /> Platform Art Upload</h2>
-                    <?php
-                    ## check for agreement to terms
-                    if ($user->banneragreement != 1) {
-                        print "You must agree to the site terms and conditions before you can upload. Go to the <a href=\"/?tab=agreement\">Agreement Page</a>";
-                    } else {
-                        ?>
+            <?php
+            ## check for agreement to terms
+            if ($user->banneragreement != 1) {
+                print "You must agree to the site terms and conditions before you can upload. Go to the <a href=\"/?tab=agreement\">Agreement Page</a>";
+            } else {
+                ?>
                         <p>The only accepted image formats for platform art are JPG and PNG.</p>
                         <p>Images must be of good quality. We don't want blurry or pixelated images.</p>
                         <p>More information can be found on the <a href="<?= $baseurl ?>/terms/" target="_blank">Terms and Conditions page</a>.</p>
@@ -593,11 +595,11 @@
                                 </tr>
                             </table>
                         </form>
-                <?php } ?>
+                        <?php } ?>
                 </div>
-                <?php } ?>
+                    <?php } ?>
 
-                <?php if ($loggedin == 1) { ?>
+                    <?php if ($loggedin == 1) { ?>
                 <div id="fanartUpload" class="miniPanel">
                     <form action="<?= $fullurl ?>" method="POST" enctype="multipart/form-data">
                         <h2><img src="<?= $baseurl ?>/images/common/icons/upload-black_32.png" alt="Upload" style="vertical-align: -7px;" /> Fan Art Upload</h2>
@@ -637,9 +639,9 @@
             ?>
                     </form>
                 </div>
-                    <?php } ?>
+        <?php } ?>
 
-                    <?php if ($loggedin == 1) { ?>
+        <?php if ($loggedin == 1) { ?>
                 <div id="bannerUpload" class="miniPanel">
                     <form action="<?= $fullurl ?>" method="POST" enctype="multipart/form-data">
                         <h2><img src="<?= $baseurl ?>/images/common/icons/upload-black_32.png" alt="Upload" style="vertical-align: -7px;" /> Banner Upload</h2>
@@ -776,7 +778,8 @@
             {
                 // Remove active class from nav item
                 $("#panelNav ul li a").each(function (index) {
-                    $(this).removeClass("active"); });
+                    $(this).removeClass("active");
+                });
 
                 // Hide all panels
                 $("#fanartScreens").slideUp("400");
@@ -861,10 +864,17 @@
                 // use the first element that is "scrollable"
                 function scrollableElement(els) {
                     for (var i = 0, argLength = arguments.length; i < argLength; i++) {
-                        var el = arguments[i], $scrollElement = $(el);      if ($scrollElement.scrollTop() > 0) {
-                            return el;      } else {
-                            $scrollElement.scrollTop(1);        var isScrollable = $scrollElement.scrollTop() > 0;        $scrollElement.scrollTop(0);        if (isScrollable) {
-                                return el;        }      }
+                        var el = arguments[i], $scrollElement = $(el);
+                        if ($scrollElement.scrollTop() > 0) {
+                            return el;
+                        } else {
+                            $scrollElement.scrollTop(1);
+                            var isScrollable = $scrollElement.scrollTop() > 0;
+                            $scrollElement.scrollTop(0);
+                            if (isScrollable) {
+                                return el;
+                            }
+                        }
                     }
                     return [];
                 }}

@@ -1,14 +1,8 @@
 <?php if ($adminuserlevel == 'ADMINISTRATOR') { ?>
 
-
     <div id="gameHead">
 
-        <?php if ($errormessage): ?>
-            <div class="error"><?= $errormessage ?></div>
-        <?php endif; ?>
-        <?php if ($message): ?>
-            <div class="message"><?= $message ?></div>
-        <?php endif; ?>
+        <?php include('snippets/errorsAndMessages.php'); ?>
 
         <h2>Update Publisher/Developer Keywords &amp; Logo</h2>
 
