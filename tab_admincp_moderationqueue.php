@@ -1,17 +1,10 @@
 
 <?php
-// Fetch number of uploads to be moderated
-$frontQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'front'");
-$frontQueueCount = mysql_num_rows($frontQueueResult);
-if (empty($frontQueueCount)) {
-    $frontQueueCount = 0;
-}
+include('modeles/modele_moderation_uploads.php');
 
-$backQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'back'");
-$backQueueCount = mysql_num_rows($backQueueResult);
-if (empty($backQueueCount)) {
-    $backQueueCount = 0;
-}
+// Fetch number of uploads to be moderated
+$frontQueueCount = get_frontQueueCount();
+$backQueueCount = get_backQueueCount();
 
 $clearlogoQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'clearlogo'");
 $clearlogoQueueCount = mysql_num_rows($clearlogoQueueResult);
@@ -20,7 +13,11 @@ if (empty($clearlogoQueueCount)) {
 }
 ?>
 
-<p><a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=frontboxart" style="color: orange; font-size: 16;">Front Boxart</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $frontQueueCount ?></span>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=backboxart" style="color: orange; font-size: 16;">Rear Boxart</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $backQueueCount ?></span>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=clearlogo" style="color: orange; font-size: 16;">ClearLOGO</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $clearlogoQueueCount ?></span></p>
+<p>
+    <a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=frontboxart" style="color: orange; font-size: 16;">Front Boxart</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $frontQueueCount ?></span>
+    &nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=backboxart" style="color: orange; font-size: 16;">Rear Boxart</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $backQueueCount ?></span>
+    &nbsp;&nbsp;|&nbsp;&nbsp;<a href="<?= $baseurl ?>/admincp/?cptab=moderationqueue&queuetype=clearlogo" style="color: orange; font-size: 16;">ClearLOGO</a><span style="margin-left: 4px; padding: 1px 6px; background-color: orange; color: #444444; border: 1px soid #FFFFFF; border-radius: 5px;"><?= $clearlogoQueueCount ?></span>
+</p>
 
 <?php
 if ($queuetype == "frontboxart") {
