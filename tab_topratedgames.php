@@ -30,12 +30,7 @@ function imageResize($filename, $cleanFilename, $target) {
 
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <h1>Top Rated Games</h1>
 
@@ -114,8 +109,9 @@ function imageResize($filename, $cleanFilename, $target) {
                 $screenResult = mysql_num_rows($screenQuery);
                 ?>
 
-                <?php if ($recent->Rating != "") { ?>ESRB:&nbsp;<?php echo "<b style=\"color: orange;\">$recent->Rating</b> | ";
-            } else {
+                <?php if ($recent->Rating != "") { ?>ESRB:&nbsp;<?php
+                    echo "<b style=\"color: orange;\">$recent->Rating</b> | ";
+                } else {
                     ?>ESRB:&nbsp;<b style="color: orange;">N/A</b> | <?php
                 }
                 if ($boxartResult != 0) {
@@ -126,26 +122,26 @@ function imageResize($filename, $cleanFilename, $target) {
                 }
                 if ($bannerResult != 0) {
                     ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
-    }
-    if ($screenResult != 0) {
-        ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
-    }
-    if ($recent->Youtube != "") {
-        ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?>
+                }
+                if ($screenResult != 0) {
+                    ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
+                }
+                if ($recent->Youtube != "") {
+                    ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?>
             </p>
         </div>
         <div style="clear: both;"></div>
     </div>
-<?php
-$count++;
+    <?php
+    $count++;
 
 
 ## Tile Items Display
-while ($recent = mysql_fetch_object($recentResult)) {
-    if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$recent->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
-        $boxart = mysql_fetch_object($boxartResult);
-    }
-    ?>
+    while ($recent = mysql_fetch_object($recentResult)) {
+        if ($boxartResult = mysql_query(" SELECT b.filename FROM banners as b WHERE b.keyvalue = '$recent->id' AND b.filename LIKE '%boxart%front%' LIMIT 1 ")) {
+            $boxart = mysql_fetch_object($boxartResult);
+        }
+        ?>
         <div style="width: 440px; min-height: 150px; float: left; padding: 6px; margin: 10px 13px; border-radius: 4px; border: 1px solid #4f4f4f; background-color: #333;">
             <div style="height: 102px; width: 106px; text-align: center; float:left">
                 <?php
@@ -156,18 +152,18 @@ while ($recent = mysql_fetch_object($recentResult)) {
                 } else {
                     ?>
                     <img src="<?= $baseurl ?>/images/common/placeholders/boxart_blank.png" alt="<?= $recent->GameTitle ?> Boxart"  style="width:70px; height: 100px; border: 1px solid #666;"/>
-                        <?php
-                    }
-                    ?>
+                    <?php
+                }
+                ?>
             </div>
             <h3 style="margin: 0px; padding: 0px 10px 10px 10px;"><?= $count; ?>:&nbsp;<a href="<?= $baseurl ?>/game/<?= $recent->id ?>/" style="color: orange;"><?= $recent->GameTitle ?></a></h3>
             <p style="margin: 0px; padding: 0px 10px 10px 10px;"><img src="<?= $baseurl ?>/images/common/consoles/png24/<?= $recent->icon ?>" alt="<?= $recent->name ?>" style="vertical-align: -6px;" />&nbsp;<a style="color: #fff;" href="<?= $baseurl; ?>/platform/<?php
-                    if (!empty($recent->PlatformAlias)) {
-                        echo $recent->PlatformAlias;
-                    } else {
-                        echo $recent->Platform;
-                    }
-                    ?>/"><?= $recent->name ?></a>
+                if (!empty($recent->PlatformAlias)) {
+                    echo $recent->PlatformAlias;
+                } else {
+                    echo $recent->Platform;
+                }
+                ?>/"><?= $recent->name ?></a>
                 <span style=" float: right; background-color: #333; padding: 6px; border-radius: 6px;">
                     <?php
                     $ratingquery = "SELECT AVG(rating) AS average, count(*) AS count FROM ratings WHERE itemtype='game' AND itemid=$recent->id";
@@ -185,56 +181,56 @@ while ($recent = mysql_fetch_object($recentResult)) {
                     ?>
                     &nbsp;<em>(<?= $recent->countrating ?>&nbsp;votes)</em></span></p>
             <p style="margin: 0px; padding: 0px 10px 10px 10px; text-align: justify;"><?php
-            if ($recent->Overview != "") {
-                echo substr($recent->Overview, 0, 140) . "...";
-            } else {
-                echo "No Overview Available...";
-            }
-            ?></p>
-                <?php
-                $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND banners.filename LIKE '%front%' LIMIT 1");
-                $boxartResult = mysql_num_rows($boxartQuery);
+                if ($recent->Overview != "") {
+                    echo substr($recent->Overview, 0, 140) . "...";
+                } else {
+                    echo "No Overview Available...";
+                }
+                ?></p>
+            <?php
+            $boxartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND banners.filename LIKE '%front%' LIMIT 1");
+            $boxartResult = mysql_num_rows($boxartQuery);
 
-                $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'fanart' LIMIT 1");
-                $fanartResult = mysql_num_rows($fanartQuery);
+            $fanartQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'fanart' LIMIT 1");
+            $fanartResult = mysql_num_rows($fanartQuery);
 
-                $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'series' LIMIT 1");
-                $bannerResult = mysql_num_rows($bannerQuery);
+            $bannerQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'series' LIMIT 1");
+            $bannerResult = mysql_num_rows($bannerQuery);
 
-                $screenQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'screenshot' LIMIT 1");
-                $screenResult = mysql_num_rows($screenQuery);
-                ?>
+            $screenQuery = mysql_query("SELECT keyvalue FROM banners WHERE banners.keyvalue = '$recent->id' AND keytype = 'screenshot' LIMIT 1");
+            $screenResult = mysql_num_rows($screenQuery);
+            ?>
             <div style="clear: both; padding-top: 10px; text-align: center;">
-        <?php if ($boxartResult != 0) { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
-        }
-        if ($fanartResult != 0) {
-            ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
-        }
-        if ($bannerResult != 0) {
-            ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
-        }
-        if ($screenResult != 0) {
-            ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
-        }
-        if ($recent->Youtube != "") {
-            ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?>
+                <?php if ($boxartResult != 0) { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Boxart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
+                }
+                if ($fanartResult != 0) {
+                    ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Fanart:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
+                }
+                if ($bannerResult != 0) {
+                    ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" /> | <?php } else { ?>Banner:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" /> | <?php
+                }
+                if ($screenResult != 0) {
+                    ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /> | <?php } else { ?>Screens:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /> | <?php
+                }
+                if ($recent->Youtube != "") {
+                    ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/tick_16.png" alt="Yes" style="vertical-align: -3px;" /><?php } else { ?>Trailer:&nbsp;<img src="<?= $baseurl ?>/images/common/icons/cross_16.png" alt="No" style="vertical-align: -3px;" /><?php } ?>
             </div>
             <div style="clear: both;"></div>
         </div>
-    <?php
-    if ($increment == "odd") {
-        $increment = "even";
-    } else {
-        $increment = "odd";
-    }
-    if ($increment == "even") {
-        ?>
+        <?php
+        if ($increment == "odd") {
+            $increment = "even";
+        } else {
+            $increment = "odd";
+        }
+        if ($increment == "even") {
+            ?>
             <div style="clear: both;"></div>
-        <?
+            <?
+        }
+        $count++;
     }
-    $count++;
-}
-?>
+    ?>
 
     <div style="clear: both;"></div>
 

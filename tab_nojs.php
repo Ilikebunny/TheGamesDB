@@ -1,12 +1,7 @@
 
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <h1>Oops!</h1>
     <p>&nbsp;</p>

@@ -1,11 +1,6 @@
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <?php
     $messageQuery = mysql_query("SELECT m.id, m.to, m.subject, m.message, m.timestamp, m.status, u.username AS fromname FROM messages AS m, users AS u WHERE m.id = $messageid AND m.from = u.id;");
@@ -35,7 +30,7 @@
         <h2 style="text-align: center;">Sorry, you are not allowed to view other members messages!</h2>
         <p style="text-align: center;">If you believe you have recieved this message in error, please let us know.</p>
         <p style="text-align: center;"><a href="<?= $baseurl; ?>/" style="color: orange;">Click here to return to the homepage</a></p>
-    <?
-}
-?>
+        <?
+    }
+    ?>
 </div>

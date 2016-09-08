@@ -4,18 +4,7 @@ require_once('extentions/recaptcha/recaptchalib.php');
 
 <div id="gameHead">
 
-    <?php
-    if ($errormessage) {
-        ?>
-        <div class="error"><?php echo $errormessage ?></div>
-        <?php
-    }
-    if ($message) {
-        ?>
-        <div class="message"><?php echo $message ?></div>
-        <?php
-    }
-    ?>
+   <?php include('snippets/errorsAndMessages.php'); ?>
 
     <div style="text-align: center; padding: 26px 0px;">
         <h1>Register</h1>

@@ -107,3 +107,39 @@ button.approve {
         0px 1px 0px rgba(255,255,255,0.3);
     cursor: pointer;
 }
+
+.queue_admin_table{
+    border: 2px solid #444;
+    border-radius: 6px; 
+    background-color: #EEEEEE; 
+    color: #333333; 
+    border-collapse: separate; 
+    border-spacing: 2px; 
+    border-color: gray; 
+    width: 100%;
+}
+
+.queue_admin_th_header{
+    background: #F1F1F1; 
+    background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); 
+    padding: 7px 7px 8px; 
+    font-size: 18px; 
+    text-align: center; 
+    border-bottom: 1px solid #444;
+}
+
+.queue_admin_th_head{
+    background: #F1F1F1; 
+    background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); 
+    padding: 7px 7px 8px;
+    font-size: 16px; 
+    border-bottom: 1px solid #444;
+}
+
+.queue_admin_th_foot{
+    background: #F1F1F1; 
+    background-image: -webkit-linear-gradient(bottom,#F9F9F9,#C5C5C5); 
+    padding: 7px 7px 8px; 
+    font-size: 16px; 
+    border-top: 1px solid #444;
+}

@@ -1,11 +1,6 @@
 <div id="gameHead">
 
-    <?php if ($errormessage): ?>
-        <div class="error"><?= $errormessage ?></div>
-    <?php endif; ?>
-    <?php if ($message): ?>
-        <div class="message"><?= $message ?></div>
-    <?php endif; ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <?php
     if ($loggedin == 1) {
@@ -56,20 +51,20 @@
                         <td><b>Preferred Language</b></td>
                         <td>
                             <select name="languageid" size="1">
-    <?php
-    ## Display language selector
-    foreach ($languages AS $langid => $langname) {
-        ## If we have the currently selected language
-        if ($user->languageid == $langid) {
-            $selected = 'selected';
-        }
-        ## Otherwise
-        else {
-            $selected = '';
-        }
-        print "<option value=\"$langid\" $selected>$langname</option>\n";
-    }
-    ?>
+                                <?php
+                                ## Display language selector
+                                foreach ($languages AS $langid => $langname) {
+                                    ## If we have the currently selected language
+                                    if ($user->languageid == $langid) {
+                                        $selected = 'selected';
+                                    }
+                                    ## Otherwise
+                                    else {
+                                        $selected = '';
+                                    }
+                                    print "<option value=\"$langid\" $selected>$langname</option>\n";
+                                }
+                                ?>
                             </select>
                         </td>
                     </tr>
@@ -88,9 +83,9 @@
             <div style="clear: both;"></div>
         </div>
 
-    <?php
-} else {
-    ?>
+        <?php
+    } else {
+        ?>
         <h1>Oops!</h1>
         <h2 style="text-align: center;">You must be logged in to access your user settings!</h2>
         <p style="text-align: center;">If you haven't already, please make an account with us and then log in.</p>

@@ -3,14 +3,9 @@
 include('modeles/modele_moderation_uploads.php');
 
 // Fetch number of uploads to be moderated
-$frontQueueCount = get_frontQueueCount();
-$backQueueCount = get_backQueueCount();
-
-$clearlogoQueueResult = mysql_query("SELECT id FROM moderation_uploads WHERE imagekey = 'clearlogo'");
-$clearlogoQueueCount = mysql_num_rows($clearlogoQueueResult);
-if (empty($clearlogoQueueCount)) {
-    $clearlogoQueueCount = 0;
-}
+$frontQueueCount = get_QueueCount_front();
+$backQueueCount = get_QueueCount_back();
+$clearlogoQueueCount = get_QueueCount_clearlogo();
 ?>
 
 <p>
@@ -21,35 +16,35 @@ if (empty($clearlogoQueueCount)) {
 
 <?php
 if ($queuetype == "frontboxart") {
-    $modQueueResult = mysql_query("SELECT m.*, u.username, g.GameTitle, p. NAME AS PlatformName, p.id AS PlatformID FROM moderation_uploads AS m, users AS u, games AS g, platforms AS p WHERE imagekey = 'front' AND m.userID = u.id AND m.gameID = g.id AND g.Platform = p.id ORDER BY dateadded");
+    $queueKey = 'front';
     $queueheader = "Front Boxart Moderation Queue";
 } else if ($queuetype == "backboxart") {
-    $modQueueResult = mysql_query("SELECT m.*, u.username, g.GameTitle, p. NAME AS PlatformName, p.id AS PlatformID FROM moderation_uploads AS m, users AS u, games AS g, platforms AS p WHERE imagekey = 'back' AND m.userID = u.id AND m.gameID = g.id AND g.Platform = p.id ORDER BY dateadded");
+    $queueKey = 'back';
     $queueheader = "Rear Boxart Moderation Queue";
 } else if ($queuetype == "clearlogo") {
-    $modQueueResult = mysql_query("SELECT m.*, u.username, g.GameTitle, p. NAME AS PlatformName, p.id AS PlatformID FROM moderation_uploads AS m, users AS u, games AS g, platforms AS p WHERE imagekey = 'clearlogo' AND m.userID = u.id AND m.gameID = g.id AND g.Platform = p.id ORDER BY dateadded");
+    $queueKey = 'clearlogo';
     $queueheader = "ClearLOGO Moderation Queue";
 }
-
+$modQueueResult = get_Queue_QueryResult($queueKey);
 $modQueueCount = mysql_num_rows($modQueueResult);
 ?>
 
-<table call-padding="0" cell-spacing="0" style="border: 2px solid #444; border-radius: 6px; background-color: #EEEEEE; color: #333333; border-collapse: separate; border-spacing: 2px; border-color: gray; width: 100%;">
+<table call-padding="0" cell-spacing="0" class="queue_admin_table">
     <thead style="text-align: left;">
         <tr>
-            <th colspan="3" style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); padding: 7px 7px 8px; font-size: 18px; text-align: center; border-bottom: 1px solid #444;"><?= $queueheader; ?></th>
+            <th colspan="3" class="queue_admin_th_header"><?= $queueheader; ?></th>
         </tr>
         <tr>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); padding: 7px 7px 8px; font-size: 16px; border-bottom: 1px solid #444;">Art</th>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); padding: 7px 7px 8px; font-size: 16px; border-bottom: 1px solid #444;">Info</th>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#C5C5C5,#F9F9F9); padding: 7px 7px 8px; font-size: 16px; border-bottom: 1px solid #444;">Date</th>
+            <th class = "queue_admin_th_head">Art</th>
+            <th class = "queue_admin_th_head">Info</th>
+            <th class = "queue_admin_th_head">Date</th>
         </tr>
     </thead>
     <tfoot style="text-align: left;">
         <tr>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#F9F9F9,#C5C5C5); padding: 7px 7px 8px; font-size: 16px; border-top: 1px solid #444;">Art</th>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#F9F9F9,#C5C5C5); padding: 7px 7px 8px; font-size: 16px; border-top: 1px solid #444;">Info</th>
-            <th style="background: #F1F1F1; background-image: -webkit-linear-gradient(bottom,#F9F9F9,#C5C5C5); padding: 7px 7px 8px; font-size: 16px; border-top: 1px solid #444;">Date</th>
+            <th class = "queue_admin_th_foot">Art</th>
+            <th class = "queue_admin_th_foot">Info</th>
+            <th class = "queue_admin_th_foot">Date</th>
         </tr>
     </tfoot>
     <tbody>

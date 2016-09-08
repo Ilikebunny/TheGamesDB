@@ -13,14 +13,7 @@ $game = mysql_fetch_object($result);
 
 <div id="gameHead">
 
-    <?php
-    if ($errormessage) {
-        echo "<div class=\"error\">$errormessage</div>";
-    }
-    if ($message) {
-        echo "<div class=\"message\">$message</div>";
-    }
-    ?>
+    <?php include('snippets/errorsAndMessages.php'); ?>
 
     <?php
     if (mysql_num_rows($result) == 0) {
