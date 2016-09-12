@@ -1,114 +1,117 @@
 <!DOCTYPE html >
-<meta charset= "UTF-8"/>
-<?php
+<head>
+    <meta charset= "UTF-8"/>
+
+    <?php
 ## Redirect if no javascript
-if ($tab != "nojs") {
-    print "<noscript><meta http-equiv=\"refresh\" content=\"0; url=$baseurl/nojs/\"/></noscript>\n";
-}
-?>
-<title>TheGamesDB.net - An open, online database for video game fans</title>
+    if ($tab != "nojs") {
+        print "<noscript><meta http-equiv=\"refresh\" content=\"0; url=$baseurl/nojs/\"/></noscript>\n";
+    }
+    ?>
 
-<meta name="robots" content="index, follow" />
-<meta name="keywords" content="thegamesdb, the games db, games, database, meta, metadata, api, video, youtube, trailers, wallpapers, fanart, cover art, box art, fan art, open, source, game, search, forum, directory" />
-<meta name="language" content="en-US" />
-<meta name="description" content="TheGamesDB is an open, online database for video game fans. We are driven by a strong community to provide the best place to find information, covers, backdrops screenshots and videos for games, both modern and classic." />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="thegamesdb, the games db, games, database, meta, metadata, api, video, youtube, trailers, wallpapers, fanart, cover art, box art, fan art, open, source, game, search, forum, directory" />
+    <meta name="language" content="en-US" />
+    <meta name="description" content="TheGamesDB is an open, online database for video game fans. We are driven by a strong community to provide the best place to find information, covers, backdrops screenshots and videos for games, both modern and classic." />
 
-<link rel="shortcut icon" href="<?= $baseurl ?>/favicon.ico" />
+    <title>TheGamesDB.net - An open, online database for video game fans</title>
 
-<link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/standard.css?ver=0008" />
-<link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/style-v2.css?ver=0008" />
+    <link rel="shortcut icon" href="<?= $baseurl ?>/favicon.ico" />
 
-<link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/js/ckeditor/assets/output_xhtml.css" />
-<link rel="stylesheet" href="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/COLOURloversColorPicker.css" type="text/css" media="all" />
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-ui/css/trontastic/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/standard.css?ver=0008" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/style-v2.css?ver=0008" />
 
-<!--Customs CSS-->
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/css/gdb_admin.css" type="text/css" media="all" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/js/ckeditor/assets/output_xhtml.css" />
+    <link rel="stylesheet" href="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/COLOURloversColorPicker.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-ui/css/trontastic/jquery-ui-1.8.14.custom.css" type="text/css" media="all" />
 
-<script type="text/JavaScript" src="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/js/COLOURloversColorPicker.js"></script>
-<script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/JavaScript" src="<?php echo $baseurl; ?>/js/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
+    <!--Customs CSS-->
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/css/gdb_admin.css" type="text/css" media="all" />
 
-<!-- Start AnythingSlider Include -->
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/js/anythingslider/css/anythingslider.css" type="text/css" media="all" />
-<script src="<?php echo $baseurl; ?>/js/anythingslider/js/jquery.anythingslider.js" type="text/javascript"></script>
-<!-- End AnythingSlider Include -->
+    <script type="text/JavaScript" src="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/js/COLOURloversColorPicker.js"></script>
+    <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/JavaScript" src="<?php echo $baseurl; ?>/js/jquery-ui/js/jquery-ui-1.8.14.custom.min.js"></script>
 
-<!-- Start FaceBox Include -->
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/js/facebox/facebox.css" type="text/css" media="all" />
-<script src="<?php echo $baseurl; ?>/js/facebox/facebox.js" type="text/javascript"></script>
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('a[rel*=facebox]').facebox()
-    })
-</script>
-<!-- End FaceBox Include -->
+    <!-- Start AnythingSlider Include -->
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/anythingslider/css/anythingslider.css" type="text/css" media="all" />
+    <script src="<?php echo $baseurl; ?>/js/anythingslider/js/jquery.anythingslider.js" type="text/javascript"></script>
+    <!-- End AnythingSlider Include -->
 
-<!-- Start ShadowBox Include -->
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/js/shadowbox/shadowbox.css" type="text/css" media="all" />
-<script src="<?php echo $baseurl; ?>/js/shadowbox/shadowbox.js" type="text/javascript"></script>
-<script type="text/javascript">
-    Shadowbox.init({overlayOpacity: 0.85});
-</script>
-<!-- End ShadowBox Include -->
+    <!-- Start FaceBox Include -->
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/facebox/facebox.css" type="text/css" media="all" />
+    <script src="<?php echo $baseurl; ?>/js/facebox/facebox.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('a[rel*=facebox]').facebox()
+        })
+    </script>
+    <!-- End FaceBox Include -->
 
-<!-- Start Cufon Include -->
-<script src="<?php echo $baseurl; ?>/js/cufon/cufon-yui.js" type="text/javascript"></script>
-<script src="<?php echo $baseurl; ?>/js/cufon/arcade.font.js" type="text/javascript"></script>
-<script type="text/javascript">
-    Cufon.replace('.arcade');
-</script>
-<!-- End Cufon Include -->
+    <!-- Start ShadowBox Include -->
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/shadowbox/shadowbox.css" type="text/css" media="all" />
+    <script src="<?php echo $baseurl; ?>/js/shadowbox/shadowbox.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        Shadowbox.init({overlayOpacity: 0.85});
+    </script>
+    <!-- End ShadowBox Include -->
+
+    <!-- Start Cufon Include -->
+    <script src="<?php echo $baseurl; ?>/js/cufon/cufon-yui.js" type="text/javascript"></script>
+    <script src="<?php echo $baseurl; ?>/js/cufon/arcade.font.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cufon.replace('.arcade');
+    </script>
+    <!-- End Cufon Include -->
 
 
-<!-- Start jQuery Image Dropdown Include -->
-<link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/js/jqdropdown/dd.css" />
-<script src="<?php echo $baseurl; ?>/js/jqdropdown/js/jquery.dd.js" type="text/javascript"></script>
-<!-- End jQuery Image Dropdown Include -->
+    <!-- Start jQuery Image Dropdown Include -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $baseurl; ?>/js/jqdropdown/dd.css" />
+    <script src="<?php echo $baseurl; ?>/js/jqdropdown/js/jquery.dd.js" type="text/javascript"></script>
+    <!-- End jQuery Image Dropdown Include -->
 
-<!-- Start xFade2 Include -->
-<?php if (isset($tab) && ($tab == "game" || $tab == "game-edit")) { ?>
-    <script src="<?php echo $baseurl; ?>/js/xfade2/xfade2.js" type="text/javascript"></script>
-<?php } ?>
-<!-- End xFade2 Include -->
+    <!-- Start xFade2 Include -->
+    <?php if (isset($tab) && ($tab == "game" || $tab == "game-edit")) { ?>
+        <script src="<?php echo $baseurl; ?>/js/xfade2/xfade2.js" type="text/javascript"></script>
+    <?php } ?>
+    <!-- End xFade2 Include -->
 
-<!-- Start jQuery Enabled CKEditor & CKFinder Include -->
-<script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckeditor/adapters/jquery.js"></script>
-<script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckfinder/ckfinder.js"></script>
-<!-- End jQuery Enabled CKEditor & CKFinder Include -->
+    <!-- Start jQuery Enabled CKEditor & CKFinder Include -->
+    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckeditor/adapters/jquery.js"></script>
+    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/ckfinder/ckfinder.js"></script>
+    <!-- End jQuery Enabled CKEditor & CKFinder Include -->
 
-<!-- Start Game View Page Scripts -->
-<?php if (isset($tab) && ($tab == "game" || $tab == "game-edit" || $tab == "platform" || $tab == "platform-edit")) { ?>
-    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/jqflip/jquery.flip.min.js"></script>
+    <!-- Start Game View Page Scripts -->
+    <?php if (isset($tab) && ($tab == "game" || $tab == "game-edit" || $tab == "platform" || $tab == "platform-edit")) { ?>
+        <script type="text/javascript" src="<?php echo $baseurl; ?>/js/jqflip/jquery.flip.min.js"></script>
 
-    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/nivo-slider/themes/default/default.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/nivo-slider/jquery.nivo.slider.pack.js"></script>
-<?php } ?>
-<!-- End Game View Page Scripts -->		
+        <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/nivo-slider/themes/default/default.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="<?php echo $baseurl; ?>/js/nivo-slider/jquery.nivo.slider.pack.js"></script>
+    <?php } ?>
+    <!-- End Game View Page Scripts -->		
 
-<!-- Start Platform View Page Scripts -->
-<link type="text/css" rel="stylesheet" href="<?php echo $baseurl; ?>/js/theatre/theatre.css" />
-<script type="text/javascript" src="<?php echo $baseurl; ?>/js/theatre/jquery.theatre-1.0.js"></script>
-<!-- End Platform View Page Scripts -->
+    <!-- Start Platform View Page Scripts -->
+    <link type="text/css" rel="stylesheet" href="<?php echo $baseurl; ?>/js/theatre/theatre.css" />
+    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/theatre/jquery.theatre-1.0.js"></script>
+    <!-- End Platform View Page Scripts -->
 
-<!-- Start Just Gage Scripts (Stats Page Gagues)  -->
-<?php if ($tab == "stats") { ?>
-    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/justgage/justgage.1.0.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo $baseurl; ?>/js/justgage/raphael.2.1.0.min.js"></script>
-<?php } ?>
-<!-- End Just Gage Scripts (Stats Page Gagues)  -->
+    <!-- Start Just Gage Scripts (Stats Page Gagues)  -->
+    <?php if ($tab == "stats") { ?>
+        <script type="text/javascript" src="<?php echo $baseurl; ?>/js/justgage/justgage.1.0.1.min.js"></script>
+        <script type="text/javascript" src="<?php echo $baseurl; ?>/js/justgage/raphael.2.1.0.min.js"></script>
+    <?php } ?>
+    <!-- End Just Gage Scripts (Stats Page Gagues)  -->
 
-<!-- Start jQuery Snow Script -->
-<link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-snowfall/styles.css" type="text/css" media="all" />
-<script src="<?php echo $baseurl; ?>/js/jquery-snowfall/snowfall.min.jquery.js" type="text/javascript"></script>
-<!-- End jQuery Snow Script -->
+    <!-- Start jQuery Snow Script -->
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-snowfall/styles.css" type="text/css" media="all" />
+    <script src="<?php echo $baseurl; ?>/js/jquery-snowfall/snowfall.min.jquery.js" type="text/javascript"></script>
+    <!-- End jQuery Snow Script -->
 
-<?php
+    <?php
 ## Connect to the database
-include("js/core-js.php");
-?>
+    include("js/core-js.php");
+    ?>
 
 </head>
 

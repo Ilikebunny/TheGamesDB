@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <head>
-    <meta charset="utf-8"/>
+    <meta charset=UTF-8"/>
 
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="thegamesdb, the games db, games, database, meta, metadata, api, video, youtube, trailers, wallpapers, fanart, cover art, box art, fan art, open, source, game, search, forum," />
