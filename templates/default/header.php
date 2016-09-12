@@ -27,6 +27,7 @@
 
     <!--Customs CSS-->
     <link rel="stylesheet" href="<?php echo $baseurl; ?>/css/gdb_admin.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="<?php echo $baseurl; ?>/css/gdb_main.css" type="text/css" media="all" />
 
     <script type="text/JavaScript" src="http://colourlovers.com.s3.amazonaws.com/COLOURloversColorPicker/js/COLOURloversColorPicker.js"></script>
     <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>

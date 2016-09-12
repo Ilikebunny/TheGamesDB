@@ -24,7 +24,7 @@
 
     <!-- Start FaceBox Include -->
     <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/facebox/facebox.css" type="text/css" media="all" />
-    <script src="<?php echo $baseurl; ?>/js/facebox/facebox.js" type="text/javascript"></script>
+    <script src="../js/facebox/facebox.js" type="text/javascript"></script>
     <script type="text/javascript">
         jQuery(document).ready(function($) {
         $('a[rel*=facebox]').facebox()
@@ -33,30 +33,9 @@
     <!-- End FaceBox Include -->
 
     <!-- Start jQuery Snow Script -->
-    <link rel="stylesheet" href="<?php echo $baseurl; ?>/js/jquery-snowfall/styles.css" type="text/css" media="all" />
-    <script src="<?php echo $baseurl; ?>/js/jquery-snowfall/snowfall.min.jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../js/jquery-snowfall/styles.css" type="text/css" media="all" />
+    <script src="../js/jquery-snowfall/snowfall.min.jquery.js" type="text/javascript"></script>
     <!-- End jQuery Snow Script -->
-
-    <style type="text/css">
-        body {
-            background:#111111 url(<?php echo $baseurl; ?>/images/bg-main-background.jpg) repeat-x top center;
-            overflow: hidden;
-        }
-
-        .error { opacity: 0.7; font: bold 16px Helvetica, Arial, Sans-serif; text-shadow: 0px 2px 6px #333; color: red; width: 70%; margin: auto; margin-bottom: 20px; border: 2px solid #666; border-radius: 7px; padding: 15px; text-align: center; background: url(<?php echo $baseurl; ?>/images/common/bg_orange.png) repeat-x center center;}
-        .message { opacity: 0.7; font: bold 16px Helvetica, Arial, Sans-serif; text-shadow: 0px 2px 6px #333; color: #fff; width: 70%; margin: auto; margin-bottom: 20px; border: 2px solid #666; border-radius: 7px; padding: 15px; text-align: center; background: url(<?php echo $baseurl; ?>/images/common/bg_orange.png) repeat-x center center;}
-        input {
-            height: 34px;
-            font-size: 22px;
-            line-height: 22px;
-            margin: 0px;
-            padding: 0px;
-            border: 1px solid #fff;
-            border-radius: 0px;
-            background: url(<?php echo $baseurl; ?>/images/common/bg_glass.png) no-repeat center center;
-            color: #fff;
-        }
-    </style>
 
     <?php
     $sql = "SELECT g.GameTitle, p.name, p.id AS platformid, p.icon, g.id, b.filename FROM games AS g, banners AS b, platforms AS p, ratings AS r WHERE r.itemid = b.id AND g.id = b.keyvalue AND r.itemtype = 'banner' AND b.keytype = 'fanart' AND g.platform = p.id GROUP BY g.GameTitle, p.name, g.id, b.filename    HAVING AVG(r.rating) = 10 ORDER BY RAND() LIMIT 6";
