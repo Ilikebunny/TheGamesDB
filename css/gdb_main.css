@@ -1,3 +1,79 @@
+body{
+    overflow-x:hidden;
+}
+
 #footer{
     position: fixed; width: 100%; bottom: 0px; z-index: 200; text-align: center;
+}
+
+#frontHeader{
+    height: 78px; 
+    position: absolute; top: 0px; left: 0px; width: 100%; z-index: 300; 
+    background: url(/images/bg_bannerws-thin.png) repeat-x center center; 
+    box-shadow: 0px 0px 6px 0px #000;
+}
+
+#frontBanner{
+    width: 880px;
+    margin: auto;
+}
+
+#frontBanner_p{
+    position: absolute; top: 10px; right: 15px; 
+    font-family:Arial; font-size:10pt; 
+    margin: 0px; padding: 0px;
+}
+
+#tinyHeader{
+    position: fixed; 
+    width: 100%; left: 0px; top: 0px; height: 50px; 
+    z-index: 299;
+}
+
+#bannerShadow{
+    display: none; 
+    position: absolute; top: 113px; 
+    background: url(../images/bg_banner-shadow.png) repeat-x center center; 
+    height: 15px; width: 100%; z-index: 200; opacity: 0.5;
+}
+
+#bannerThinGlass{
+    border-width: 0px; 
+    padding: 12px 125px
+}
+
+#pageFooter{
+    padding: 10px; 
+    text-align: center; 
+    background-color: #0F0F0F; 
+    color: #666666; 
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+}
+
+#footerbarShadow{
+    width: 100%;
+    background: url(../images/bg_footerbar-shadow.png) repeat-x center center; 
+    height: 15px;
+    opacity: 0.5
+}
+
+#footerbar{
+    width: 100%;
+    background: url(../images/bg_footerbar.png) repeat-x center center;
+    height: 30px;
+}
+
+#Terms{
+    padding-top: 5px; padding-left: 25px; float: left; 
+    font-family: 'Segoe UI','HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Tahoma,Verdana,sans-serif; 
+    font-size: 14px; text-shadow: 0px 2px 6px #666;
+}
+
+#theTeam{
+    padding-top: 5px; padding-right: 25px; 
+    float: right; 
+    font-family: 'Segoe UI','HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Tahoma,Verdana,sans-serif; 
+    font-size: 14px; 
+    text-shadow: 0px 2px 6px #666;
 }

@@ -1,5 +1,5 @@
 <!-- Page Footer -->
-<div style="padding: 10px; text-align: center; background-color: #0F0F0F; color: #666666; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+<div id="pageFooter">
     <table style="width: 100%;" cellpadding="2">
         <tr>
             <td colspan="5"><h3>Friends of TheGamesDB.net</h3></td>
@@ -21,14 +21,14 @@
 </div>
 
 
-<div id="footer" style="">
-    <div id="footerbarShadow" style="width: 100%; background: url(../images/bg_footerbar-shadow.png) repeat-x center center; height: 15px; opacity: 0.5"></div>
-    <div id="footerbar" style="width: 100%; background: url(../images/bg_footerbar.png) repeat-x center center; height: 30px;">
-        <div id="Terms" style="padding-top: 5px; padding-left: 25px; float: left; font-family: 'Segoe UI','HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Tahoma,Verdana,sans-serif; font-size: 14px; text-shadow: 0px 2px 6px #666;">
+<div id="footer">
+    <div id="footerbarShadow"></div>
+    <div id="footerbar">
+        <div id="Terms">
             <a href="<?= $baseurl ?>/terms/" style="color: #333;">Terms &amp; Conditions</a>
         </div>
 
-        <div id="theTeam" style="padding-top: 5px; padding-right: 25px; float: right; font-family: 'Segoe UI','HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Arial,Tahoma,Verdana,sans-serif; font-size: 14px; text-shadow: 0px 2px 6px #666;">
+        <div id="theTeam">
             <a href="http://wiki.thegamesdb.net" style="color: #333;">TheGamesDB Wiki</a> | <a href="../showcase" style="color: #333;">Showcase</a> 
         </div>
 
@@ -37,6 +37,7 @@
             <a href="http://twitter.com/thegamesdb" target="_blank"><img src="<?= $baseurl ?>/images/common/icons/social/24/twitter_dark.png" alt="Visit us on Twitter" title="Visit us on Twitter" onmouseover="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/twitter_active.png')" onmouseout="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/twitter_dark.png')" /></a>
             <a href="https://plus.google.com/116977810662942577082/posts" target="_blank"><img src="<?= $baseurl ?>/images/common/icons/social/24/google_dark.png" alt="Visit us on Google Plus" title="Visit us on Google Plus"  onmouseover="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/google_active.png')" onmouseout="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/google_dark.png')" /></a>
         </div>
+        
     </div>
 </div>
 
@@ -127,7 +128,6 @@
 </script>
 
 <script type="text/javascript">
-
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-16803563-1']);
     _gaq.push(['_trackPageview']);
@@ -140,7 +140,6 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
     })();
-
 </script>
 
 <script type="text/javascript">

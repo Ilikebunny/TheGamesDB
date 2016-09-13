@@ -116,45 +116,19 @@
 
 </head>
 
-<body style="overflow-x:hidden;">
+<body>
 
-    <div id="frontHeader" style="height: 78px; position: absolute; top: 0px; left: 0px; width: 100%; z-index: 300; background: url(/images/bg_bannerws-thin.png) repeat-x center center; box-shadow: 0px 0px 6px 0px #000;">
-        <div id="frontBanner" style="width: 880px; margin: auto;">
-            <p style="position: absolute; top: 10px; right: 15px; font-family:Arial; font-size:10pt; margin: 0px; padding: 0px;">
-                <?php
-                if ($loggedin) {
-                    $msgQuery = mysql_query(" SELECT id FROM messages WHERE status = 'new' AND messages.to = '$user->id' ");
-                    $msgCount = mysql_num_rows($msgQuery);
-                    ?><a href="<?= $baseurl ?>/messages/">Messages</a> <?php
-                    if ($msgCount > 0) {
-                        echo"<span style=\"color: Chartreuse;\">($msgCount)</span>";
-                    } else {
-                        echo "($msgCount)";
-                    }
-                    ?> <span style="color: #ccc;">|</span> <a href="<?= $baseurl ?>/favorites/">Favorites</a> <span>(<?php
-                    if ($user->favorites != "") {
-                        echo count(explode(",", $user->favorites));
-                    } else {
-                        echo "0";
-                    }
-                    ?>)</span> <span style="color: #ccc;">|</span> <?php if ($adminuserlevel == 'ADMINISTRATOR') { ?> <a href="<?= $baseurl ?>/admincp/">Admin Control Panel</a> <?php } else { ?><a href="<?= $baseurl ?>/userinfo/">My User Info</a><?php } ?> <span style="color: #ccc;">|</span> <a href="<?= $baseurl ?>/?function=Log Out">Logout</a>
-                    <?php } else { ?>
-                    <a href="<?= $baseurl ?>/login/?redirect=<?= urlencode($_SERVER["REQUEST_URI"]) ?>">Login</a> <span style="color: #ccc;">|</span> New to the site? <a href="<?= $baseurl ?>/register/">Register here!</a>
-                <?php } ?>
-            </p>
-            <a href="../" title="An open database of video games">
-                <img src="../images/bannerws-thin-glass-v2.png" style="border-width: 0px; padding: 12px 125px" />
-            </a>
-        </div>
-    </div>
+    <?php
+    include("templates/default/layout_frontHeader.php");
+    ?>
 
     <?php
     include("templates/default/main_nav.php");
     ?>
 
-    <div style=" display: none; position: absolute; top: 113px; background: url(../images/bg_banner-shadow.png) repeat-x center center; height: 15px; width: 100%; z-index: 200; opacity: 0.5;"></div>
+    <div id="bannerShadow"></div>
 
-    <div id="tinyHeader" style="position: fixed; width: 100%; left: 0px; top: 0px; height: 50px; z-index: 299;">			
+    <div id="tinyHeader">			
         <div style="width: 100%; height: 35px; background: #000;">
             <div style="width: 1000px; margin: auto; background: #000 url(../images/header-tiny.png) no-repeat center left;">
                 <form action="<?= $baseurl ?>/search/" style="width: 300px; display: inline;" autocomplete="off">

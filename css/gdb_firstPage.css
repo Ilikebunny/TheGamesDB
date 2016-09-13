@@ -258,3 +258,7 @@ input {
     color: white; 
     letter-spacing: 2px;
 }
+
+#bannerThinGlass{
+    border-width: 0px; padding: 12px 125px
+}

@@ -144,37 +144,12 @@
     }
     ?>
 </head>
+
 <body>
 
-    <div id="frontHeader">
-        <div id="frontBanner">
-            <p id="frontBanner_p">
-                <?php
-                if ($loggedin) {
-                    $msgQuery = mysql_query(" SELECT id FROM messages WHERE status = 'new' AND messages.to = '$user->id' ");
-                    $msgCount = mysql_num_rows($msgQuery);
-                    ?><a href="<?= $baseurl ?>/messages/">Messages</a> <?php
-                    if ($msgCount > 0) {
-                        echo"<span style=\"color: Chartreuse;\">($msgCount)</span>";
-                    } else {
-                        echo "($msgCount)";
-                    }
-                    ?> <span style="color: #ccc;">|</span> <a href="<?= $baseurl ?>/favorites/">Favorites</a> (<?php
-                    if ($user->favorites != "") {
-                        echo count(explode(",", $user->favorites));
-                    } else {
-                        echo "0";
-                    }
-                    ?>) <span style="color: #ccc;">|</span> <?php if ($adminuserlevel == 'ADMINISTRATOR') { ?> <a href="<?= $baseurl ?>/admincp/">Admin Control Panel</a> <?php } else { ?><a href="<?= $baseurl ?>/userinfo/">My User Info</a><?php } ?> <span style="color: #ccc;">|</span> <a href="<?= $baseurl ?>/?function=Log Out">Logout</a>
-                <?php } else { ?>
-                    <a href="<?= $baseurl ?>/login/">Login</a> <span style="color: #ccc;">|</span> New to the site? <a href="<?= $baseurl ?>/register/">Register here!</a>
-                <?php } ?>
-            </p>
-            <a href="../" title="An open database of video games">
-                <img src="../images/bannerws-thin-glass-v2.png" style="border-width: 0px; padding: 12px 125px" />
-            </a>
-        </div>
-    </div>
+    <?php
+    include("templates/default/layout_frontHeader.php");
+    ?>
 
     <div id="banner"></div>
 
@@ -353,10 +328,14 @@
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-16803563-1']);
         _gaq.push(['_trackPageview']);
+        
         (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        var ga = document.createElement('script'); 
+        ga.type = 'text/javascript';
+        ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
         })();
     </script>
 
