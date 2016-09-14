@@ -37,121 +37,21 @@
             <a href="http://twitter.com/thegamesdb" target="_blank"><img src="<?= $baseurl ?>/images/common/icons/social/24/twitter_dark.png" alt="Visit us on Twitter" title="Visit us on Twitter" onmouseover="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/twitter_active.png')" onmouseout="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/twitter_dark.png')" /></a>
             <a href="https://plus.google.com/116977810662942577082/posts" target="_blank"><img src="<?= $baseurl ?>/images/common/icons/social/24/google_dark.png" alt="Visit us on Google Plus" title="Visit us on Google Plus"  onmouseover="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/google_active.png')" onmouseout="$(this).attr('src', '<?= $baseurl ?>/images/common/icons/social/24/google_dark.png')" /></a>
         </div>
-        
+
     </div>
 </div>
 
 <?php include('templates/default/credits.php'); ?>
 
-<script type="text/javascript">
-    // Ajax Quick Search
-    $(".ajaxSearch").bind("focus input paste", function (event) {
-        var currentElement = $(this);
-        if (this.value)
-        {
-            $.post("<?php echo $baseurl; ?>/scripts/ajax_searchgame.php", "searchterm=" + $(this).val(), function (data) {
-                if (data.result == 'success')
-                {
-                    var resultsArray = [];
-
-                    $.each(data.games, function (index, value) {
-                        var currentResult = ['<li>',
-                            '<a href="<?php $baseurl; ?>/game/' + value.id + '">' + value.title + '<br>',
-                            '<span>' + value.platform + '</span>',
-                            '</a>',
-                            '</li>'].join('\n');
-
-                        resultsArray.push(currentResult);
-                    });
-
-
-                    var resultDisplay = ['<ul>',
-                        resultsArray.join('\n'),
-                        '</ul>'].join('\n');
-
-                    currentElement.parent().children('.ajaxSearchResults').html(resultDisplay);
-                    currentElement.parent().children('.ajaxSearchResults').slideDown();
-                } else
-                {
-                    currentElement.parent().children('.ajaxSearchResults').html('');
-                    currentElement.parent().children('.ajaxSearchResults').slideUp('fast');
-                }
-            }, "json");
-
-        } else
-        {
-            $('.ajaxSearchResults').slideUp('fast');
-        }
-
-    });
-
-    // Keyboard Navigation For Ajax QuickSearch
-    $('.ajaxSearch, .ajaxSearchResults').bind('keydown', function (e) {
-        var ajaxParent = $(this).closest('form').children('.ajaxSearchResults').children('ul');
-        if ($('.ajaxSearch').is(':focus'))
-        {
-            if (e.keyCode == 40)
-            {
-                ajaxParent.children('li').first().children('a').focus();
-                return false;
-            }
-        } else
-        {
-            if (e.keyCode == 40)
-            {
-                $(':focus').parent().next().children('a').focus();
-                e.preventDefault();
-                return false;
-            } else if (e.keyCode == 38)
-            {
-                $(':focus').parent().prev().children('a').focus();
-                e.preventDefault();
-                return false;
-            } else if (e.keyCode == 8)
-            {
-                $(this).closest('form').children('.ajaxSearch').focus();
-                e.preventDefault();
-                return false;
-            }
-        }
-    });
-
-    // Hide Ajax QuickSearch When Clicking Outside of Results
-    $(document).click(function (e)
-    {
-        var container = $(".ajaxSearchResults");
-        if (!container.is(e.target) && container.has(e.target).length === 0)
-        {
-            container.slideUp('fast');
-        }
-    });
-</script>
-
-<script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-16803563-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function () {
-        var ga = document.createElement('script');
-        ga.type = 'text/javascript';
-        ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-    })();
-</script>
-
-<script type="text/javascript">
-    // jQuery Snow Script Instance
-    // $('#main').snowfall({ flakeCount : 100, maxSpeed : 10, round: true, shadow: true, minSize: 2, maxSize: 4 });
-</script>
+<script src="../../js/gdb_quicksearch_main.js" type="text/javascript"></script>
+<script src="../../js/gdb_ga.js" type="text/javascript"></script>
 
 <!-- Start Force instant run of cufon to circumvent IE delay -->
 <script type="text/javascript"> Cufon.now();</script>
 <!-- End Force instant run of cufon to circumvent IE delay -->
 
 <div id="fb-root"></div>
+
 <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
@@ -160,7 +60,8 @@
         js.id = id;
         js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
 </body>
 
